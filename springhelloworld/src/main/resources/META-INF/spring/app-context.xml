@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+Serves the same purpose as the one we used for MessageSupportFactory
+
+beans: Default namespace. Is used to declare the beans that need to be managed by Spring, 
+	 and its dependency requirements for Spring to resolve and inject those dependencies.
+	
+p: inform Spring about the DI requirement
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="provider" class="com.isbank.spring.basics.HelloWorldMessageProvider"/>
+	
+	<bean id="renderer" class="com.isbank.spring.basics.StandardOutMessageRenderer"
+		p:messageProvider-ref="provider"/> <!-- tells Spring that the bean’s property, messageProvider, should be injected with another bean -->
+
+</beans>
