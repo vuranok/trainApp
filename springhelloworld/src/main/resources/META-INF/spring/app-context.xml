@@ -7,6 +7,9 @@ beans: Default namespace. Is used to declare the beans that need to be managed b
 	 and its dependency requirements for Spring to resolve and inject those dependencies.
 	
 p: inform Spring about the DI requirement
+
+Best practice: when declaring a Spring XSD location, it's best practice to not include the version number. 
+	This also prevents you from having to modify all of your bean files when upgrading to a new version of Spring. 
 -->
 
 <beans xmlns="http://www.springframework.org/schema/beans" 
