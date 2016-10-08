@@ -40,5 +40,11 @@ the schemaLocation attribute.
 	<bean id="renderer" class="com.isbank.spring.basics.StandardOutMessageRenderer">
 		<property name="messageProvider" ref="provider"></property> 
 	</bean> -->
+  
+	<bean id="constructorConfusion" class="com.isbank.spring.consinject.ConstructorConfusion">
+ 		<constructor-arg type="int">
+			<value>90</value>
+		</constructor-arg>
+	</bean>
 
 </beans>

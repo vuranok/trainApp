@@ -90,8 +90,9 @@
 	              <!--
 	              <mainClass>com.isbank.spring.basics.HelloWorldSpringDI</mainClass>
 	              <mainClass>com.isbank.spring.annotation.SpringAnnotationRunner</mainClass>
-	               -->
 	              <mainClass>com.isbank.spring.consinject.SpringAnnotationRunner</mainClass>
+	               -->
+	              <mainClass>com.isbank.spring.consinject.ConstructorConfusion</mainClass>
 	              <addClasspath>true</addClasspath>
 	              <classpathPrefix>dependency/</classpathPrefix>
 	            </manifest>
