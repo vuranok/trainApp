@@ -3,6 +3,8 @@ package com.isbank.spring.basics;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.isbank.spring.message.MessageRenderer;
+
 public class HelloWorldSpringDI {
 
 	public static void main(String[] args) {

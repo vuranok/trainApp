@@ -1,6 +1,6 @@
 package com.isbank.spring.basics;
 
-import com.isbank.spring.basics.MessageProvider;
+import com.isbank.spring.message.MessageProvider;
 
 public class ConfigurableMessageProvider implements MessageProvider {
 

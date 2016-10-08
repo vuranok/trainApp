@@ -1,5 +1,8 @@
 package com.isbank.spring.basics;
 
+import com.isbank.spring.message.MessageProvider;
+import com.isbank.spring.message.MessageRenderer;
+
 public class StandardOutMessageRenderer implements MessageRenderer {
 
 	private MessageProvider messageProvider;

@@ -2,6 +2,8 @@ package com.isbank.spring.annotation;
 
 import org.springframework.context.support.GenericXmlApplicationContext;
 
+import com.isbank.spring.message.MessageRenderer;
+
 public class SpringAnnotationRunner {
 
 	public static void main(String[] args) {

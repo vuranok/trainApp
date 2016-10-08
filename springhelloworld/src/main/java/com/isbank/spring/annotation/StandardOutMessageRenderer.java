@@ -3,6 +3,9 @@ package com.isbank.spring.annotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.isbank.spring.message.MessageProvider;
+import com.isbank.spring.message.MessageRenderer;
+
 @Service("MessageRenderer")
 public class StandardOutMessageRenderer implements MessageRenderer {
 
