@@ -1,4 +1,4 @@
-package com.isbank.spring.annotation;
+package com.isbank.spring.message;
 
 public interface MessageProvider {
 	
