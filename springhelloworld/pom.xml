@@ -87,7 +87,10 @@
 	        <configuration>
 	          <archive>
 	            <manifest>
+	              <!-- 
 	              <mainClass>com.isbank.spring.basics.HelloWorldSpringDI</mainClass>
+	               -->
+	               <mainClass>com.isbank.spring.annotation.SpringAnnotationRunner</mainClass>
 	              <addClasspath>true</addClasspath>
 	              <classpathPrefix>dependency/</classpathPrefix>
 	            </manifest>
