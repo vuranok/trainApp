@@ -18,7 +18,12 @@ Best practice: when declaring a Spring XSD location, it's best practice to not i
 	xmlns:p="http://www.springframework.org/schema/p"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+<!--  
 	<bean id="provider" class="com.isbank.spring.basics.HelloWorldMessageProvider"/>
+-->
+	<bean id="provider" class="com.isbank.spring.basics.ConfigurableMessageProvider">
+		<constructor-arg value="Message from app-context.xml"/>
+	</bean>
 
 	<!-- tells Spring that the bean’s property, messageProvider, should be injected with another bean --> 
 	<bean id="renderer" class="com.isbank.spring.basics.StandardOutMessageRenderer"
