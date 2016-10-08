@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:c="http://www.springframework.org/schema/c"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
 		http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -18,7 +19,7 @@ by using either a comma, a semicolon, or a space as the delimiter.
 	<context:component-scan base-package="com.isbank.spring.annotation" />
 -->
 	<context:component-scan base-package="com.isbank.spring.consinject" />
-
+	<bean id="message" class="java.lang.String" c:_0="Externalized message injected to constructor by the help of namespace c" />
 <!--
 	<context:component-scan base-package="com.apress.prospring4.ch3.annotation" >
 		<context:exclude-filter type="assignable" expression="com.example.NotAService"/>
