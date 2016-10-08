@@ -32,9 +32,15 @@ the schemaLocation attribute.
 	<bean id="provider" class="com.isbank.spring.basics.ConfigurableMessageProvider"
 		c:message="Message from app-context.xml with the help of namespace c"/>
 	
-	<!-- tells Spring that the bean’s property, messageProvider, should be injected with another bean --> 
+	<!-- tells Spring that the bean’s property, messageProvider, should be injected with another bean 
 	<bean id="renderer" class="com.isbank.spring.basics.StandardOutMessageRenderer"
 		p:messageProvider-ref="provider"/>
+	--> 
+	<bean id="renderer" class="com.isbank.spring.basics.StandardOutMessageRenderer">
+		<property name="messageProvider">
+			<ref bean="provider"/>
+		</property>
+	</bean>
 		
 	<!-- Used for setter injection 
 	<bean id="renderer" class="com.isbank.spring.basics.StandardOutMessageRenderer">
