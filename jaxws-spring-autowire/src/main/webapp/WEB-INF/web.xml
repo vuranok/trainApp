@@ -7,9 +7,15 @@
 	
   <display-name>jaxws-spring-autowire</display-name>
   
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>classpath:spring/applicationContext.xml</param-value>
+  </context-param>
+  
   <!-- Initialize the spring framework first. 
   Spring supports the bootstrapping of ApplicationContext via the ContextLoaderListener in a web container environment
-  --> 
+  -->
+   
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>

@@ -18,5 +18,5 @@ public interface CustomerService {
 	@WebMethod 
 	@WebResult(name="customer")
     Customer getCustomer(int customerID);
-	
+
 }
