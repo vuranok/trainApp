@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" targetNamespace="http://isbank.com/" xmlns:tns="http://isbank.com/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="getAccount" type="tns:getAccount"/>
+
+  <xs:element name="getAccountResponse" type="tns:getAccountResponse"/>
+
+  <xs:element name="insertAccount" type="tns:insertAccount"/>
+
+  <xs:element name="insertAccountResponse" type="tns:insertAccountResponse"/>
+
+  <xs:complexType name="insertAccount">
+    <xs:sequence>
+      <xs:element name="arg0" type="tns:account" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="account">
+    <xs:sequence>
+      <xs:element name="id" type="xs:int" minOccurs="0"/>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="insertAccountResponse">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getAccount">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:int" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getAccountResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:account" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>
+

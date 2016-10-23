@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+
+<!-- 
+JaxWsPortProxyFactoryBean will use the WSDL available at that URL to construct a proxy to the service.
+wsdlDocumentUrl : The property identifies the location of the remote web service’s definition file.
+serviceInterface : Is the business interface the clients will use.
+namespaceUri : can be fetched from wsdl -> target-Namespace attribute of the <wsdl:definitions> element. 
+			   the namespace helps JaxWsPortProxyFactoryBean locate the servicedefinition in the WSDL
+serviceName : can be fetched from wsdl -> <service name="AccountService">
+portName : can be fetched from wsdl -> <port name="AccountServiceEndpointPort"
+ -->
+	<bean id="accountWebService" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean">
+	    <property name="serviceInterface" value="com.isbank.AccountServiceEndpoint"/>
+	    <property name="wsdlDocumentUrl" value="http://localhost:9999/AccountService?wsdl"/>
+	    <property name="namespaceUri" value="http://isbank.com/"/>
+	    <property name="serviceName" value="AccountService"/>
+	    <property name="portName" value="AccountServiceEndpointPort"/>
+	</bean>
+
+	<bean id="client" class="com.isbank.client.AccountClientImpl">
+    	<property name="service" ref="accountWebService"/>
+	</bean>
+	
+</beans>
