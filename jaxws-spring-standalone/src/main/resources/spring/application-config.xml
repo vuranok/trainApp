@@ -5,9 +5,17 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
     
-    <!-- Uncomment and add your base-package here: -->
+    <!-- The <context:component-scan> tag tells Spring to scan the code for injectable beans annotated with @Component,
+@Controller, @Repository, and @Service as well as supporting the @Autowired and @Inject annotations under the
+package (and all its subpackages) specified. In the <context:component-scan> tag, multiple packages can be defined
+by using either a comma, a semicolon, or a space as the delimiter. -->
          
     <context:component-scan base-package="com.isbank"/>
+
+<!-- SimpleJaxWsServiceExporter requires
+that the JAX-WS runtime support publishing of endpoints to a specified address. The
+JAX-WS runtime that ships with Sun’s JDK 1.6 fits the bill, but other JAX-WS implementations,
+including the reference implementation of JAX-WS, may not. -->
 
 	<bean class="org.springframework.remoting.jaxws.SimpleJaxWsServiceExporter">
 	    <property name="baseAddress" value="http://localhost:9999/"/>
