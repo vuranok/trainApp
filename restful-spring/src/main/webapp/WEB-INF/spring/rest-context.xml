@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+<!-- 
+1) The <mvc:annotation-driven> tag enables the annotation support for Spring MVC (that is, the @Controller annotation), 
+as well as registers Spring’s type conversion and formatting system. 
+In addition, JSR-303 validation support is also enabled under the definition of this tag.
+
+2) The <mvc:message-converters> tag declares the instances of HttpMessageConverter that will be used for media conversion for supported formats. 
+Note that the <mvc:message-converters> tag was introduced in Spring 3.1.
+Because we will support both JSON and XML as the data format, two converters are declared. 
+The first one is MappingJackson2HttpMessageConverter, which is Spring’s support for the Jackson JSON library (http://jackson.codehaus.org). 
+The other one is MarshallingHttpMessageConverter, which is provided by the spring-oxm module for XML marshaling/unmarshaling. 
+Within the MarshallingHttpMessageConverter, we need to define the marshaler and unmarshaler to use, which is the one provided by Castor in our case.
+
+3) For the castorMarshaller bean, we use the Spring-provided class org.springframework.oxm.castor.CastorMarshaller, which integrates with Castor, 
+and we provide the mapping location that Castor requires for its processing.
+
+4) The <context:component-scan> tag instructs Spring to scan for the specified package for controller classes.
+ -->
+	<mvc:annotation-driven>
+		<mvc:message-converters>
+			<bean
+				class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+			<bean
+				class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+				<property name="marshaller" ref="castorMarshaller" />
+				<property name="unmarshaller" ref="castorMarshaller" />
+			</bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+	
+	<context:component-scan base-package="com.apress.prospring4.ch12" />
+	
+	<bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller">
+		<property name="mappingLocation" value="classpath:META-INF/spring/oxm-mapping.xml" />
+	</bean>
+</beans>
