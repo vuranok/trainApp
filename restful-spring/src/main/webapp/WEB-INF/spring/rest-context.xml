@@ -25,6 +25,8 @@ Within the MarshallingHttpMessageConverter, we need to define the marshaler and 
 and we provide the mapping location that Castor requires for its processing.
 
 4) The <context:component-scan> tag instructs Spring to scan for the specified package for controller classes.
+
+5) Spring MVC will invoke the corresponding message converter based on the client’s HTTP header’s accept media information and will write to the HTTP response accordingly.
  -->
 	<mvc:annotation-driven>
 		<mvc:message-converters>
