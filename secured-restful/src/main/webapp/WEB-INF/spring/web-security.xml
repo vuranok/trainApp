@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/security
+http://www.springframework.org/schema/security/spring-security.xsd">
+
+<!-- 
+In the <http> tag, we declare that the resources under the URL /restful/** should be protected.
+
+The attribute create-session, which was new in Spring Security 3.1.0, is introduced to allow us to configure whether the HTTP session will be created upon authentication.
+Since the RESTful-WS we are using is stateless, we set the value to stateless, which instructs Spring Security not to create an HTTP session for all RESTful requests. This can help improve the performance of the RESTful services.
+
+Next, in the <intercept-url> tag, we set that only users with the ROLE_REMOTE role assigned can access the RESTful service.
+
+The <http-basic/>tag specifies that only HTTP basic authentication is supported for RESTful services.
+
+The <authentication-manager> tag defines the authentication information. Here we define a simple authentication provider with a hard-coded user and password (both set to remote) with the ROLE_REMOTE role assigned. 
+In an enterprise environment, most likely the authentication will be done by either a database or an LDAP lookup.
+
+ -->
+	<http pattern="/restful/**" create-session="stateless">
+		<intercept-url pattern='/**' access='ROLE_REMOTE' />
+		<http-basic />
+	</http>
+
+	<authentication-manager>
+		<authentication-provider>
+			<user-service>
+				<user name="remote" password="remote" authorities="ROLE_REMOTE" />
+			</user-service>
+		</authentication-provider>
+	</authentication-manager>
+
+</beans:beans>
