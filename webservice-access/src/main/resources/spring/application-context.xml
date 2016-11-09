@@ -19,6 +19,7 @@ portName : can be fetched from wsdl -> <port name="AccountServiceEndpointPort"
 	    <property name="namespaceUri" value="http://isbank.com/"/>
 	    <property name="serviceName" value="AccountService"/>
 	    <property name="portName" value="AccountServiceEndpointPort"/>
+	    <property name="endpointAddress" value="http://localhost:9999/AccountService"/>
 	</bean>
 
 	<bean id="client" class="com.isbank.client.AccountClientImpl">
