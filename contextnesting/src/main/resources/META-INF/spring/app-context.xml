@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<import resource="parent.xml"/>
+
+	<bean id="hande" class="com.softtech.academy.Trainer" c:course-ref="course1" c:name="hande"/>
+	
+	<bean id="serkan" class="com.softtech.academy.Trainer" c:_0="serkan" c:course-ref="course2"/>
+	
+	<bean id="onur" class="com.softtech.academy.Trainer">
+		<constructor-arg value="onur" />
+		<constructor-arg>
+			<ref parent="course1"/>	
+		</constructor-arg>
+	</bean>
+	
+	<bean name="course1" class="java.lang.String" c:_0="javascript"/>
+	
+</beans>
