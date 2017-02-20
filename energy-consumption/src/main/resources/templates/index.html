@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Profiles and Fractions</title>
+<link rel="stylesheet" th:href="@{/style.css}" />
+</head>
+
+<body>
+
+	<div th:if="${message}">
+		<h2 th:text="${message}"/>
+	</div>
+	
+	<form method="post" enctype="multipart/form-data" action="/">
+		<p>
+			Please specify a file:<br></br> <input type="file"
+				name="datafile" size="40"></input>
+		</p>
+		<div>
+			<input type="submit" value="Send"></input>
+		</div>
+	</form>
+
+	<ul th:each="profile : ${profiles}">
+		<li><span th:text="${profile}"></span></li>
+	</ul>
+</body>
+</html>
