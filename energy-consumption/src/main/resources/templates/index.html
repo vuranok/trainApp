@@ -7,19 +7,21 @@
 
 <body>
 
-	<div th:if="${message}">
-		<h2 th:text="${message}"/>
-	</div>
-	
-	<form method="post" enctype="multipart/form-data" action="/">
+	<form method="post" enctype="multipart/form-data" action="/profileUpload">
 		<p>
-			Please specify a file:<br></br> <input type="file"
-				name="datafile" size="40"></input>
+			Please specify a file:<br></br> <input type="file" name="datafile"
+				size="40"></input>
 		</p>
 		<div>
 			<input type="submit" value="Send"></input>
 		</div>
 	</form>
+
+	<div th:if="${message}">
+		<ul th:each="message : ${message}">
+			<li><span th:text="${message}"></span></li>
+		</ul>
+	</div>
 
 	<ul th:each="profile : ${profiles}">
 		<li><span th:text="${profile}"></span></li>
