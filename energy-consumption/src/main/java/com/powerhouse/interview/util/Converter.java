@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.powerhouse.interview.entity.BusinessFault;
+import com.powerhouse.interview.entity.MeterReading;
 import com.powerhouse.interview.entity.Profile;
 
 public class Converter {
@@ -27,6 +28,36 @@ public class Converter {
 				Profile currentProfile = new Profile(parts[1]);
 				currentProfile.addFraction(parts);
 				map.put(parts[1], currentProfile);
+			}
+		}
+		
+		return map;
+	}
+
+	public Map<Integer, MeterReading> convertToMeterReadingMap(List<String> meterReadings) throws BusinessFault {
+		
+		Map<Integer, MeterReading> map = new HashMap<Integer, MeterReading>();
+
+		for(String line : meterReadings) {			
+			String[] parts = line.split(",");
+			if(parts.length != 4) {				
+				throw new BusinessFault("A comma must be used as a line seperator");
+			}
+			
+			if(map.containsKey(parts[0])) {
+				MeterReading currentMeterReading = map.get(parts[0]);
+				currentMeterReading.addReading(parts);
+			}
+			else {
+				Integer meterId;
+				try {
+					meterId = Integer.parseInt(parts[0]);
+				} catch (NumberFormatException  e) {
+					throw new BusinessFault("Given MeterID must be an integer!");
+				}
+				MeterReading currentMeterReading = new MeterReading(meterId, parts[1]);
+				currentMeterReading.addReading(parts);
+				map.put(meterId, currentMeterReading);
 			}
 		}
 		

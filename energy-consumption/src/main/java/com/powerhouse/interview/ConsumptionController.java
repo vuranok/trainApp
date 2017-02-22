@@ -1,9 +1,6 @@
 package com.powerhouse.interview;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,48 +15,35 @@ import com.powerhouse.interview.service.BusinessDelegate;
 
 @Controller
 @RequestMapping("/")
-public class ProfileController{
+public class ConsumptionController{
 
 	@Autowired
 	BusinessDelegate businessService;
-	
-	@RequestMapping(method = RequestMethod.GET)
-	public String index(Map<String, List<String>> model) {
-
-		ArrayList<String> profiles = new ArrayList<String>();
-		profiles.add("JAN,A,0.2");
-		profiles.add("JAN,B,0.18");
-		profiles.add("FEB,A,0.1");
-
-		model.put("profiles", profiles);
-
-		return "index";
-	}
 
 	@RequestMapping(value = "/profileUpload", method = RequestMethod.POST)
 	public String handleProfileUpload(@RequestParam("datafile") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
 		
-		if (fileNameSuffix(file.getOriginalFilename())) {
+		if (isFileNameSuffixCsv(file.getOriginalFilename())) {
 			try { 
 				businessService.handleProfile(file);
-				redirectAttributes.addFlashAttribute("message", businessService.getProfile("A") + "\n" + 
+				redirectAttributes.addFlashAttribute("profileMessage", businessService.getProfile("A") + "\n" + 
 						businessService.getProfile("B"));
 			} catch (IOException e) {
-				redirectAttributes.addFlashAttribute("message", e.getMessage());
+				redirectAttributes.addFlashAttribute("profileMessage", e.getMessage());
 			} catch (BusinessFault e) {
-				redirectAttributes.addFlashAttribute("message", e.getMessage());
+				redirectAttributes.addFlashAttribute("profileMessage", e.getMessage());
 			}
 
 		} else {
-			redirectAttributes.addFlashAttribute("message",
+			redirectAttributes.addFlashAttribute("profileMessage",
 					"Excepted file type is csv. You choosed " + file.getOriginalFilename() + "!");
 		}
 
 		return "redirect:/";
 	}
 	
-	public boolean fileNameSuffix(String fileName) {
+	public boolean isFileNameSuffixCsv(String fileName) {
 		if(fileName != null) {
 			String[] splittedFileName = fileName.split("\\.");
 			if("csv".equals(splittedFileName[splittedFileName.length - 1])) {
@@ -67,6 +51,29 @@ public class ProfileController{
 			}
 		}
 		return false;
+	}
+
+	@RequestMapping(value = "/meterUpload", method = RequestMethod.POST)
+	public String handleMeterReadingsUpload(@RequestParam("datafile") MultipartFile file,
+			RedirectAttributes redirectAttributes) {
+		
+		if (isFileNameSuffixCsv(file.getOriginalFilename())) {
+			try { 
+				businessService.handleMeterReadings(file);
+				redirectAttributes.addFlashAttribute("meterReadingMessage", businessService.getProfile("A") + "\n" + 
+						businessService.getProfile("B"));
+			} catch (IOException e) {
+				redirectAttributes.addFlashAttribute("meterReadingMessage", e.getMessage());
+			} catch (BusinessFault e) {
+				redirectAttributes.addFlashAttribute("meterReadingMessage", e.getMessage());
+			}
+
+		} else {
+			redirectAttributes.addFlashAttribute("meterReadingMessage",
+					"Excepted file type is csv. You choosed " + file.getOriginalFilename() + "!");
+		}
+
+		return "redirect:/";
 	}
 	
 }

@@ -1,6 +1,7 @@
 package com.powerhouse.interview.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,17 @@ public class ProfileService {
 	}
 
 	public Profile getProfile(String key) {
-		return PROFILE_MAP.get(key);
+		if(PROFILE_MAP.containsKey(key)) {			
+			return PROFILE_MAP.get(key);
+		}
+		else {
+			List<Profile> profilesInDb = profileRepository.findOne(key);
+			if(!profilesInDb.isEmpty()) {
+				PROFILE_MAP.put(key, profilesInDb.get(0));
+				return profilesInDb.get(0);
+			}
+			return null;
+		}
 	}
 
     @Autowired

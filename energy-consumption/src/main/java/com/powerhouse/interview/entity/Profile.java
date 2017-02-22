@@ -1,12 +1,12 @@
 package com.powerhouse.interview.entity;
 
-import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class Profile {
 
 	private String name;
-	private Map<Month, Double> fractionMap = new HashMap<Month, Double>();
+	private Map<Month, Double> fractionMap = new TreeMap<Month, Double>(new MonthComparator());
 	
 	public Profile(String name) {
 		this.name = name;

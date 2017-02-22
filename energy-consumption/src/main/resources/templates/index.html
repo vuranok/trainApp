@@ -9,7 +9,7 @@
 
 	<form method="post" enctype="multipart/form-data" action="/profileUpload">
 		<p>
-			Please specify a file:<br></br> <input type="file" name="datafile"
+			Please specify a file for profiles:<br></br> <input type="file" name="datafile"
 				size="40"></input>
 		</p>
 		<div>
@@ -17,14 +17,27 @@
 		</div>
 	</form>
 
-	<div th:if="${message}">
-		<ul th:each="message : ${message}">
-			<li><span th:text="${message}"></span></li>
+	<div th:if="${profileMessage}">
+		<ul th:each="profileMessage : ${profileMessage}">
+			<li><span th:text="${profileMessage}"></span></li>
 		</ul>
 	</div>
 
-	<ul th:each="profile : ${profiles}">
-		<li><span th:text="${profile}"></span></li>
-	</ul>
+	<form method="post" enctype="multipart/form-data" action="/meterUpload">
+		<p>
+			Please specify a file for meter readings:<br></br> <input type="file" name="datafile"
+				size="40"></input>
+		</p>
+		<div>
+			<input type="submit" value="Send"></input>
+		</div>
+	</form>
+	
+	<div th:if="${meterReadingMessage}">
+		<ul th:each="meterReadingMessage : ${meterReadingMessage}">
+			<li><span th:text="${meterReadingMessage}"></span></li>
+		</ul>
+	</div>
+	
 </body>
 </html>
