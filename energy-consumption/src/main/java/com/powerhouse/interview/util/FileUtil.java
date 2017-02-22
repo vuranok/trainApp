@@ -7,16 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
-@Configuration
 public class FileUtil {
-	
-	@Bean
-	public FileUtil getInstance() {
-		return new FileUtil();
-	}
 	
 	public List<String> readLines(MultipartFile file) throws IOException {
 

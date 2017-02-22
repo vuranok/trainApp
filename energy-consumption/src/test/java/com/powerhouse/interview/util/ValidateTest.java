@@ -17,20 +17,6 @@ public class ValidateTest {
 	public void setup() {
 		validate = new Validate();
 	}
-
-	@Test
-	public void profileFileNameSuffixMustBeCsv() {
-		String fileName = "profile.csv";
-		
-		assertTrue(validate.fileNameSuffix(fileName));
-	}
-
-	@Test
-	public void suffixViolationWhenProfileFileNameSuffixIsOtherThanCsv() {
-		String fileName = "profile.jpg";
-		
-		assertFalse(validate.fileNameSuffix(fileName));
-	}
 	
 	@Test
 	public void forAProfileTheSumOfAllFractionsShouldBe1() throws BusinessFault {

@@ -14,14 +14,15 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.powerhouse.interview.entity.BusinessFault;
+import com.powerhouse.interview.service.BusinessDelegate;
 
 @Controller
 @RequestMapping("/")
 public class ProfileController{
 
 	@Autowired
-	public BusinessDelegate businessService;
-
+	BusinessDelegate businessService;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public String index(Map<String, List<String>> model) {
 
@@ -38,11 +39,12 @@ public class ProfileController{
 	@RequestMapping(value = "/profileUpload", method = RequestMethod.POST)
 	public String handleProfileUpload(@RequestParam("datafile") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
-
+		
 		if (fileNameSuffix(file.getOriginalFilename())) {
 			try { 
 				businessService.handleProfile(file);
-				redirectAttributes.addFlashAttribute("message", businessService.getProfile());
+				redirectAttributes.addFlashAttribute("message", businessService.getProfile("A") + "\n" + 
+						businessService.getProfile("B"));
 			} catch (IOException e) {
 				redirectAttributes.addFlashAttribute("message", e.getMessage());
 			} catch (BusinessFault e) {
@@ -57,7 +59,7 @@ public class ProfileController{
 		return "redirect:/";
 	}
 	
-	private boolean fileNameSuffix(String fileName) {
+	public boolean fileNameSuffix(String fileName) {
 		if(fileName != null) {
 			String[] splittedFileName = fileName.split("\\.");
 			if("csv".equals(splittedFileName[splittedFileName.length - 1])) {

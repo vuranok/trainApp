@@ -12,6 +12,14 @@ public class Profile {
 		this.name = name;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public Map<Month, Double> getFractionMap() {
+		return fractionMap;
+	}
+
 	public void addFraction(String[] parts) throws BusinessFault {
 		
 		Month month = Month.getValue(parts[0].toUpperCase());
@@ -23,14 +31,15 @@ public class Profile {
 		
 		fractionMap.put(month, fraction);
 	}
-
-	public String getName() {
-		return name;
-	}
-
-	public Map<Month, Double> getFractionMap() {
-		return fractionMap;
+	
+	public void addFraction(Month month, double fraction) {
+		
+		fractionMap.put(month, fraction);
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Profile [name=" + name + ", fractionMap=" + fractionMap + "]";
+	}
+
 }

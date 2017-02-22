@@ -1,11 +1,11 @@
-package com.powerhouse.interview;
+package com.powerhouse.interview.service;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.powerhouse.interview.entity.BusinessFault;
@@ -15,33 +15,31 @@ import com.powerhouse.interview.util.Converter;
 import com.powerhouse.interview.util.FileUtil;
 import com.powerhouse.interview.util.Validate;
 
-public class ProfileService implements BusinessDelegate {
+@Controller
+public class BusinessDelegate {
 
-	private static final Map<String, Profile> PROFILE_MAP = java.util.Collections.synchronizedMap(new HashMap<String, Profile>());
+	@Autowired
+	private ProfileService profileService;
+
+	private FileUtil fileUtil = new FileUtil();
+	private Validate validate = new Validate();
+	private Converter converter = new Converter();
 	
-	@Autowired
-	private FileUtil fileUtil;
-	@Autowired
-	private Validate validate;
-	@Autowired
-	private Converter converter;
-
-	@Override
-	public void handle(MultipartFile file) throws IOException, BusinessFault {
+	public void handleProfile(MultipartFile file) throws IOException, BusinessFault {
 
 		List<String> profiles = fileUtil.readLines(file);
 		removeHeader(profiles);
 		Map<String, Profile> inputProfileMap = converter.convertToProfileMap(profiles);
 		validateProfiles(inputProfileMap);
-		persistProfileMap(inputProfileMap);
+		profileService.persistProfileMap(inputProfileMap);
 	}
 
 	public void removeHeader(List<String> profiles) {
 		if (!profiles.isEmpty()) {
 			String firstLine = profiles.get(0);
-			if (firstLine.length() > 3 && Month.getValue(firstLine.substring(0, 3).toUpperCase()) == null)
-
-				profiles.subList(1, profiles.size());
+			if (firstLine.length() > 3 && Month.getValue(firstLine.substring(0, 3).toUpperCase()) == null) {				
+				profiles.remove(0);
+			}
 		}
 	}
 
@@ -52,13 +50,9 @@ public class ProfileService implements BusinessDelegate {
 			}
 		}
 	}
-
-	private void persistProfileMap(Map<String, Profile> givenProfileMap) {
-		PROFILE_MAP.putAll(givenProfileMap);
-	}
-
-	public static Profile getProfile(String key) {
-		return PROFILE_MAP.get(key);
+	
+	public Profile getProfile(String key) {
+		return profileService.getProfile(key);
 	}
 
 }

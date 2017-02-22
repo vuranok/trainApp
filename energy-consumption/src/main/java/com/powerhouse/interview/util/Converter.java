@@ -4,19 +4,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-
 import com.powerhouse.interview.entity.BusinessFault;
 import com.powerhouse.interview.entity.Profile;
 
-@Configuration
 public class Converter {
-
-	@Bean
-	public Converter getInstance() {
-		return new Converter();
-	}
 	
 	public Map<String, Profile> convertToProfileMap(List<String> inputList) throws BusinessFault {
 		
