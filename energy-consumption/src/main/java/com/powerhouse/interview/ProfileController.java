@@ -14,23 +14,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.powerhouse.interview.entity.BusinessFault;
-import com.powerhouse.interview.entity.Profile;
-import com.powerhouse.interview.util.Converter;
-import com.powerhouse.interview.util.FileUtil;
-import com.powerhouse.interview.util.Validate;
 
 @Controller
 @RequestMapping("/")
-public class ProfileController {
+public class ProfileController{
 
 	@Autowired
-	FileUtil fileUtil;
-
-	@Autowired
-	Validate validate;
-
-	@Autowired
-	Converter converter;
+	public BusinessDelegate businessService;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String index(Map<String, List<String>> model) {
@@ -49,21 +39,13 @@ public class ProfileController {
 	public String handleProfileUpload(@RequestParam("datafile") MultipartFile file,
 			RedirectAttributes redirectAttributes) {
 
-		if (validate.fileNameSuffix(file.getOriginalFilename())) {
-
-			try {
-				List<String> profiles = fileUtil.readLines(file);
-				profiles = profiles.subList(1, profiles.size());
-				Map<String, Profile> profileMap = converter.convertToProfileMap(profiles);
-				for(Profile profile : profileMap.values()) {
-					if(!validate.fractions(profile)) {
-						throw new BusinessFault("Given fractions are not valid for profile " + profile.getName());
-					}
-				}
-				redirectAttributes.addFlashAttribute("message", profiles);
-			} catch (BusinessFault e) {
-				redirectAttributes.addFlashAttribute("message", e.getMessage());
+		if (fileNameSuffix(file.getOriginalFilename())) {
+			try { 
+				businessService.handleProfile(file);
+				redirectAttributes.addFlashAttribute("message", businessService.getProfile());
 			} catch (IOException e) {
+				redirectAttributes.addFlashAttribute("message", e.getMessage());
+			} catch (BusinessFault e) {
 				redirectAttributes.addFlashAttribute("message", e.getMessage());
 			}
 
@@ -74,4 +56,15 @@ public class ProfileController {
 
 		return "redirect:/";
 	}
+	
+	private boolean fileNameSuffix(String fileName) {
+		if(fileName != null) {
+			String[] splittedFileName = fileName.split("\\.");
+			if("csv".equals(splittedFileName[splittedFileName.length - 1])) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }

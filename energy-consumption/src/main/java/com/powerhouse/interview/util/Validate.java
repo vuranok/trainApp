@@ -1,7 +1,5 @@
 package com.powerhouse.interview.util;
 
-import java.util.List;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,16 +11,6 @@ public class Validate {
 	@Bean
 	public Validate getInstance() {
 		return new Validate();
-	}
-	
-	public boolean fileNameSuffix(String fileName) {
-		if(fileName != null) {
-			String[] splittedFileName = fileName.split("\\.");
-			if("csv".equals(splittedFileName[splittedFileName.length - 1])) {
-				return true;
-			}
-		}
-		return false;
 	}
 
 	public boolean fractions(Profile profile) {

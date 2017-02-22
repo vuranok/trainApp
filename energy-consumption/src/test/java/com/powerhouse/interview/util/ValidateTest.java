@@ -26,6 +26,13 @@ public class ValidateTest {
 	}
 
 	@Test
+	public void suffixViolationWhenProfileFileNameSuffixIsOtherThanCsv() {
+		String fileName = "profile.jpg";
+		
+		assertFalse(validate.fileNameSuffix(fileName));
+	}
+	
+	@Test
 	public void forAProfileTheSumOfAllFractionsShouldBe1() throws BusinessFault {
 		Profile profile = ProfileBuilder.aProfile().withName("A").withSumOfFractionsOne(true).build();
 		
