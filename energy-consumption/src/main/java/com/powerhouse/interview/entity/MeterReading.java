@@ -1,6 +1,7 @@
 package com.powerhouse.interview.entity;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 public class MeterReading {
@@ -14,6 +15,13 @@ public class MeterReading {
 		this.profileName = profileName;
 	}
 
+	public MeterReading(MeterReading meterReading) {
+		this(meterReading.getMeterID(), meterReading.getProfileName());
+		for(Entry<Month, Integer> entry : meterReading.getMeterReadingMap().entrySet()) {
+			this.addReading(entry.getKey(), entry.getValue());
+		}
+	}
+
 	public void addReading(String[] parts) throws BusinessFault {
 		
 		Month month = Month.getValue(parts[2].toUpperCase());
@@ -22,6 +30,11 @@ public class MeterReading {
 		}
 		
 		int reading = Integer.parseInt(parts[3]);
+		
+		meterReadingMap.put(month, reading);
+	}
+	
+	public void addReading(Month month, Integer reading) {
 		
 		meterReadingMap.put(month, reading);
 	}

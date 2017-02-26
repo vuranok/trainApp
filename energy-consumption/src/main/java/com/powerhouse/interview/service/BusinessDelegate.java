@@ -6,34 +6,48 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.powerhouse.interview.entity.BusinessFault;
 import com.powerhouse.interview.entity.MeterReading;
 import com.powerhouse.interview.entity.Month;
 import com.powerhouse.interview.entity.Profile;
 import com.powerhouse.interview.util.Converter;
-import com.powerhouse.interview.util.FileUtil;
 import com.powerhouse.interview.util.Validate;
 
 @Controller
 public class BusinessDelegate {
 
 	@Autowired
-	private ProfileService profileService;
-
-	private FileUtil fileUtil = new FileUtil();
+	private BusinessService service;
+	
 	private Validate validate = new Validate();
 	private Converter converter = new Converter();
 	
-	public void handleProfile(MultipartFile file) throws IOException, BusinessFault {
+	public Map<String, Profile> handleProfiles(List<String> profiles) throws IOException, BusinessFault {
 
-		List<String> profiles = fileUtil.readLines(file);
 		removeHeaderForProfile(profiles);
 		Map<String, Profile> inputProfileMap = converter.convertToProfileMap(profiles);
 		validateProfiles(inputProfileMap);
-		profileService.persistProfileMap(inputProfileMap);
+		service.persistProfileMap(inputProfileMap);
+		return inputProfileMap;
 	}
+	
+	public Map<Integer, MeterReading> handleMeterReadings(List<String> meterReadings) throws IOException, BusinessFault {
+
+		removeHeaderForMeterReadings(meterReadings);
+		Map<Integer, MeterReading> inputMeterReadingMap = converter.convertToMeterReadingMap(meterReadings);
+		validateMeterReadings(inputMeterReadingMap);
+		service.persistMeterReadingMap(inputMeterReadingMap);
+		return inputMeterReadingMap;
+	}
+	
+	public Profile getProfile(String key) {
+		return service.getProfile(key);
+	}
+	
+	public MeterReading getMeterReading(Integer id) {
+		return service.getMeterReading(id);
+	} 
 
 	public void removeHeaderForProfile(List<String> profiles) {
 		if (!profiles.isEmpty()) {
@@ -44,6 +58,20 @@ public class BusinessDelegate {
 		}
 	}
 
+	public void removeHeaderForMeterReadings(List<String> meterReadings) {
+		if (!meterReadings.isEmpty()) {
+			String firstLine = meterReadings.get(0);
+			String[] arr = firstLine.split(",");
+			if (arr != null && arr.length > 0) {
+				try {
+					Integer.parseInt(arr[0]);
+				} catch (NumberFormatException e) {
+					meterReadings.remove(0);
+				}
+			}
+		}
+	}
+	
 	private void validateProfiles(Map<String, Profile> givenProfileMap) throws BusinessFault {
 		for (Profile profile : givenProfileMap.values()) {
 			if (!validate.fractions(profile)) {
@@ -51,21 +79,8 @@ public class BusinessDelegate {
 			}
 		}
 	}
-	
-	public Profile getProfile(String key) {
-		return profileService.getProfile(key);
-	}
 
-	public void handleMeterReadings(MultipartFile file) throws IOException, BusinessFault {
-
-		List<String> meterReadings = fileUtil.readLines(file);
-		removeHeaderForProfile(meterReadings);
-		Map<Integer, MeterReading> inputMeterReadingMap = converter.convertToMeterReadingMap(meterReadings);
-		validateMeterReadings(inputMeterReadingMap);
-		profileService.persistMeterReadingMap(inputMeterReadingMap);
-	}
-
-	private String validateMeterReadings(Map<Integer, MeterReading> inputMeterReadingMap) throws BusinessFault {
+	private void validateMeterReadings(Map<Integer, MeterReading> inputMeterReadingMap) throws BusinessFault {
 		StringBuilder builder = new StringBuilder();
 		for (MeterReading meterReading : inputMeterReadingMap.values()) {
 			if (!validate.meterReading(meterReading.getMeterReadingMap())) {
@@ -74,7 +89,7 @@ public class BusinessDelegate {
 				builder.append("\n");
 				continue;
 			}
-			Profile currentProfile = profileService.getProfile(meterReading.getProfileName());
+			Profile currentProfile = service.getProfile(meterReading.getProfileName());
 			if(currentProfile == null) {
 				builder.append("Fractions for the profiles contained in the data should exist. Meter id is ");
 				builder.append(meterReading.getMeterID());
@@ -92,21 +107,20 @@ public class BusinessDelegate {
 				continue;
 			}
 		}
-		return builder.toString();
+		if(!builder.toString().isEmpty()) {			
+			throw new BusinessFault(builder.toString());
+		}
+		
 	}
 
-	public void removeHeaderForMeterReadings(List<String> meterReadings) {
-		if (!meterReadings.isEmpty()) {
-			String firstLine = meterReadings.get(0);
-			String[] arr = firstLine.split(",");
-			if (arr != null && arr.length > 0) {
-				try {
-					Integer.parseInt(arr[0]);
-				} catch (NumberFormatException e) {
-					meterReadings.remove(0);
-				}
-			}
-		}
+	public List<Profile> fetchProfiles() {
+		
+		return service.fetchProfiles();
+	}
+
+	public List<MeterReading> fetchMeters() {
+		
+		return service.fetchMeters();
 	}
 
 }

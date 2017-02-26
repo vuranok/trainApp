@@ -44,17 +44,18 @@ public class Converter {
 				throw new BusinessFault("A comma must be used as a line seperator");
 			}
 			
-			if(map.containsKey(parts[0])) {
-				MeterReading currentMeterReading = map.get(parts[0]);
+			Integer meterId;
+			try {
+				meterId = Integer.parseInt(parts[0]);
+			} catch (NumberFormatException  e) {
+				throw new BusinessFault("Given MeterID must be an integer!");
+			}
+			
+			if(map.containsKey(meterId)) {
+				MeterReading currentMeterReading = map.get(meterId);
 				currentMeterReading.addReading(parts);
 			}
 			else {
-				Integer meterId;
-				try {
-					meterId = Integer.parseInt(parts[0]);
-				} catch (NumberFormatException  e) {
-					throw new BusinessFault("Given MeterID must be an integer!");
-				}
 				MeterReading currentMeterReading = new MeterReading(meterId, parts[1]);
 				currentMeterReading.addReading(parts);
 				map.put(meterId, currentMeterReading);

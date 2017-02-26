@@ -1,6 +1,7 @@
 package com.powerhouse.interview.entity;
 
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 public class Profile {
@@ -10,6 +11,13 @@ public class Profile {
 	
 	public Profile(String name) {
 		this.name = name;
+	}
+	
+	public Profile(Profile aProfile) {
+		this(aProfile.getName());
+		for(Entry<Month, Double> entry : aProfile.getFractionMap().entrySet()) {
+			this.addFraction(entry.getKey(), entry.getValue());
+		}
 	}
 
 	public String getName() {
@@ -41,5 +49,5 @@ public class Profile {
 	public String toString() {
 		return "Profile [name=" + name + ", fractionMap=" + fractionMap + "]";
 	}
-
+	
 }

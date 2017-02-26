@@ -15,13 +15,16 @@
 		<div>
 			<input type="submit" value="Send"></input>
 		</div>
+		
+		<div th:if="${profileMessage}">
+			<p>
+				Result:<br></br> 
+			</p>
+			<ul th:each="profileMessage : ${profileMessage}">
+				<li><span th:text="${profileMessage}"></span></li>
+			</ul>
+		</div>
 	</form>
-
-	<div th:if="${profileMessage}">
-		<ul th:each="profileMessage : ${profileMessage}">
-			<li><span th:text="${profileMessage}"></span></li>
-		</ul>
-	</div>
 
 	<form method="post" enctype="multipart/form-data" action="/meterUpload">
 		<p>
@@ -31,13 +34,33 @@
 		<div>
 			<input type="submit" value="Send"></input>
 		</div>
+		
+		<div th:if="${meterReadingMessage}">
+			<p>
+				Result:<br></br> 
+			</p>
+			<ul th:each="meterReadingMessage : ${meterReadingMessage}">
+				<li><span th:text="${meterReadingMessage}"></span></li>
+			</ul>
+		</div>
 	</form>
 	
-	<div th:if="${meterReadingMessage}">
-		<ul th:each="meterReadingMessage : ${meterReadingMessage}">
-			<li><span th:text="${meterReadingMessage}"></span></li>
+	<div th:if="${profilesInDB}">
+		<p>
+			The profiles in database:<br></br> 
+		</p>
+		<ul th:each="profilesInDB : ${profilesInDB}">
+			<li><span th:text="${profilesInDB}"></span></li>
 		</ul>
 	</div>
 	
+	<div th:if="${metersInDB}">
+		<p>
+			The meter readings in database:<br></br> 
+		</p>
+		<ul th:each="metersInDB : ${metersInDB}">
+			<li><span th:text="${metersInDB}"></span></li>
+		</ul>
+	</div>
 </body>
 </html>

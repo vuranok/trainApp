@@ -86,4 +86,27 @@ public class ProfileRepository {
 		}
 	}
 
+	public List<Profile> fetchProfiles() {
+		return jdbc
+				.query("select name, january, february, march, april, may, june, july, august, september, october, november, december "
+						+ "from PROFILE", new RowMapper<Profile>() {
+							public Profile mapRow(ResultSet rs, int rowNum) throws SQLException {
+								Profile profile = new Profile(rs.getString(1));
+								profile.addFraction(Month.JANUARY, rs.getDouble(2));
+								profile.addFraction(Month.FEBRUARY, rs.getDouble(3));
+								profile.addFraction(Month.MARCH, rs.getDouble(4));
+								profile.addFraction(Month.APRIL, rs.getDouble(5));
+								profile.addFraction(Month.MAY, rs.getDouble(6));
+								profile.addFraction(Month.JUNE, rs.getDouble(7));
+								profile.addFraction(Month.JULY, rs.getDouble(8));
+								profile.addFraction(Month.AUGUST, rs.getDouble(9));
+								profile.addFraction(Month.SEPTEMBER, rs.getDouble(10));
+								profile.addFraction(Month.OCTOBER, rs.getDouble(11));
+								profile.addFraction(Month.NOVEMBER, rs.getDouble(12));
+								profile.addFraction(Month.DECEMBER, rs.getDouble(13));
+								return profile;
+							}
+						});
+	}
+
 }
