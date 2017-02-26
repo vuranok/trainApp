@@ -1,6 +1,7 @@
 package com.powerhouse.interview.service;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -36,8 +37,13 @@ public class BusinessDelegate {
 
 		removeHeaderForMeterReadings(meterReadings);
 		Map<Integer, MeterReading> inputMeterReadingMap = converter.convertToMeterReadingMap(meterReadings);
-		validateMeterReadings(inputMeterReadingMap);
-		service.persistMeterReadingMap(inputMeterReadingMap);
+		try {
+			validateMeterReadings(inputMeterReadingMap);
+		} catch (BusinessFault e) {
+			throw e;
+		} finally {			
+			service.persistMeterReadingMap(inputMeterReadingMap);
+		}
 		return inputMeterReadingMap;
 	}
 	
@@ -82,11 +88,18 @@ public class BusinessDelegate {
 
 	private void validateMeterReadings(Map<Integer, MeterReading> inputMeterReadingMap) throws BusinessFault {
 		StringBuilder builder = new StringBuilder();
-		for (MeterReading meterReading : inputMeterReadingMap.values()) {
+		
+		Map<Integer, MeterReading> copiedMeterReadindgs = new HashMap<Integer, MeterReading>();
+		for(Map.Entry<Integer,MeterReading> entry : inputMeterReadingMap.entrySet()) {
+			copiedMeterReadindgs.put(entry.getKey(), new MeterReading(entry.getValue()));
+		}
+		
+		for (MeterReading meterReading : copiedMeterReadindgs.values()) {
 			if (!validate.meterReading(meterReading.getMeterReadingMap())) {
 				builder.append("For a given meter a reading for a month should not be lower than the previous one. Meter id is ");
 				builder.append(meterReading.getMeterID());
 				builder.append("\n");
+				inputMeterReadingMap.remove(meterReading.getMeterID());
 				continue;
 			}
 			Profile currentProfile = service.getProfile(meterReading.getProfileName());
@@ -96,6 +109,7 @@ public class BusinessDelegate {
 				builder.append(" profile name is ");
 				builder.append(meterReading.getProfileName());
 				builder.append("\n");
+				inputMeterReadingMap.remove(meterReading.getMeterID());
 				continue;
 			}
 			if(!validate.consumptions(meterReading.getMeterReadingMap(), currentProfile.getFractionMap())) {
@@ -104,6 +118,7 @@ public class BusinessDelegate {
 				builder.append(" profile name is ");
 				builder.append(meterReading.getProfileName());
 				builder.append("\n");
+				inputMeterReadingMap.remove(meterReading.getMeterID());
 				continue;
 			}
 		}
