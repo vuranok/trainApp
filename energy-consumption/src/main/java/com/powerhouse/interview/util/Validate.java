@@ -1,7 +1,9 @@
 package com.powerhouse.interview.util;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,13 +20,33 @@ public class Validate {
 	}
 
 	public boolean fractions(Profile profile) {
-		double sum = 0d;
+		BigDecimal sum = new BigDecimal(0d, MathContext.DECIMAL32);
 		
-		for(double fraction : profile.getFractionMap().values()) {
-			sum += fraction;
+		Map<Month, Double> fractionMap = profile.getFractionMap();
+		
+		for(Double fraction : fractionMap.values()) {
+			sum = sum.add(new BigDecimal(fraction, MathContext.DECIMAL32));
 		}
 		
-		return sum == 1d;
+		return sum.compareTo(new BigDecimal(1d)) == 0;
+	}
+
+	public boolean isAllMonthsExist(Set<Month> monthSet) {
+		if(!monthSet.contains(Month.JANUARY) || 
+				!monthSet.contains(Month.FEBRUARY) || 
+				!monthSet.contains(Month.MARCH) || 
+				!monthSet.contains(Month.APRIL) || 
+				!monthSet.contains(Month.MAY) || 
+				!monthSet.contains(Month.JUNE) || 
+				!monthSet.contains(Month.JULY) || 
+				!monthSet.contains(Month.AUGUST) || 
+				!monthSet.contains(Month.SEPTEMBER) || 
+				!monthSet.contains(Month.OCTOBER) || 
+				!monthSet.contains(Month.NOVEMBER) || 
+				!monthSet.contains(Month.DECEMBER)) {
+			return false;
+		}
+		return true;
 	}
 
 	public boolean meterReading(Map<Month, Integer> map) {

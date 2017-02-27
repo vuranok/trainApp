@@ -8,7 +8,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
-import com.powerhouse.interview.entity.BusinessFault;
+import com.powerhouse.interview.BusinessFault;
 import com.powerhouse.interview.entity.MeterReading;
 import com.powerhouse.interview.entity.Month;
 import com.powerhouse.interview.entity.Profile;
@@ -80,7 +80,9 @@ public class BusinessDelegate {
 	
 	private void validateProfiles(Map<String, Profile> givenProfileMap) throws BusinessFault {
 		for (Profile profile : givenProfileMap.values()) {
-			if (!validate.fractions(profile)) {
+			Map<Month, Double> fractionMap = profile.getFractionMap();
+
+			if (!validate.isAllMonthsExist(fractionMap.keySet()) || !validate.fractions(profile)) {
 				throw new BusinessFault("Given fractions are not valid for profile " + profile.getName());
 			}
 		}
@@ -136,6 +138,13 @@ public class BusinessDelegate {
 	public List<MeterReading> fetchMeters() {
 		
 		return service.fetchMeters();
+	}
+
+	public void createProfiles(List<Profile> profiles) throws BusinessFault {
+
+		Map<String, Profile> inputProfileMap = converter.convertToMap(profiles);
+		validateProfiles(inputProfileMap);
+		service.persistProfileMap(inputProfileMap);
 	}
 
 }

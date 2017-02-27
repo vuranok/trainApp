@@ -2,12 +2,18 @@ package com.powerhouse.interview.entity;
 
 import java.util.Map;
 import java.util.Map.Entry;
+
+import com.powerhouse.interview.BusinessFault;
+
 import java.util.TreeMap;
 
 public class Profile {
 
 	private String name;
 	private Map<Month, Double> fractionMap = new TreeMap<Month, Double>(new MonthComparator());
+	
+	public Profile() {
+	}
 	
 	public Profile(String name) {
 		this.name = name;
@@ -26,6 +32,14 @@ public class Profile {
 
 	public Map<Month, Double> getFractionMap() {
 		return fractionMap;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setFractionMap(Map<Month, Double> fractionMap) {
+		this.fractionMap = fractionMap;
 	}
 
 	public void addFraction(String[] parts) throws BusinessFault {

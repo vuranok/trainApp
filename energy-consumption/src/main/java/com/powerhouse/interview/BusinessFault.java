@@ -1,4 +1,4 @@
-package com.powerhouse.interview.entity;
+package com.powerhouse.interview;
 
 public class BusinessFault extends Exception {
 

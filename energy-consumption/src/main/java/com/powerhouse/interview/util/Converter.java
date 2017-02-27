@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.powerhouse.interview.entity.BusinessFault;
+import com.powerhouse.interview.BusinessFault;
 import com.powerhouse.interview.entity.MeterReading;
 import com.powerhouse.interview.entity.Profile;
 
@@ -60,6 +60,17 @@ public class Converter {
 				currentMeterReading.addReading(parts);
 				map.put(meterId, currentMeterReading);
 			}
+		}
+		
+		return map;
+	}
+
+	public Map<String, Profile> convertToMap(List<Profile> profiles) {
+		
+		Map<String, Profile> map = new HashMap<String, Profile>();
+
+		for(Profile profile : profiles) {			
+			map.put(profile.getName(), profile);
 		}
 		
 		return map;

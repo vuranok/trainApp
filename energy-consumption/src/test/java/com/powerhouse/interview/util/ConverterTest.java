@@ -9,7 +9,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.powerhouse.interview.entity.BusinessFault;
+import com.powerhouse.interview.BusinessFault;
 import com.powerhouse.interview.entity.Month;
 import com.powerhouse.interview.entity.Profile;
 

@@ -1,6 +1,6 @@
 package com.powerhouse.interview.util;
 
-import com.powerhouse.interview.entity.BusinessFault;
+import com.powerhouse.interview.BusinessFault;
 import com.powerhouse.interview.entity.Profile;
 
 public class ProfileBuilder {
