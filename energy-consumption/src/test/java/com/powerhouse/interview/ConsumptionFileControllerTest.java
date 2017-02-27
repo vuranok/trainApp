@@ -6,13 +6,13 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ConsumptionControllerTest {
+public class ConsumptionFileControllerTest {
 
-	ConsumptionController controller;
+	ConsumptionFileController controller;
 	
 	@Before
 	public void setup() {
-		controller = new ConsumptionController();
+		controller = new ConsumptionFileController();
 	}
 	
 	@Test

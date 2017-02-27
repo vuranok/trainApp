@@ -22,7 +22,7 @@ import com.powerhouse.interview.util.FileUtil;
 
 @Controller
 @RequestMapping("/")
-public class ConsumptionController {
+public class ConsumptionFileController {
 
 	@Autowired
 	BusinessDelegate businessDelegate;
