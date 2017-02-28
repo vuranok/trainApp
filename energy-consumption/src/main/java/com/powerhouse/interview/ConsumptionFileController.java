@@ -52,7 +52,7 @@ public class ConsumptionFileController {
 		}
 		
 		redirectAttributes.addFlashAttribute("profilesInDB", businessDelegate.fetchProfiles());
-		redirectAttributes.addFlashAttribute("metersInDB", businessDelegate.fetchMeters());
+		redirectAttributes.addFlashAttribute("metersInDB", businessDelegate.fetchMeterReadings());
 
 		return "redirect:/";
 	}
@@ -98,7 +98,7 @@ public class ConsumptionFileController {
 		}
 		
 		redirectAttributes.addFlashAttribute("profilesInDB", businessDelegate.fetchProfiles());
-		redirectAttributes.addFlashAttribute("metersInDB", businessDelegate.fetchMeters());
+		redirectAttributes.addFlashAttribute("metersInDB", businessDelegate.fetchMeterReadings());
 
 		return "redirect:/";
 	}

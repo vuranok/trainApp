@@ -81,8 +81,8 @@ public class BusinessService {
 		return profileRepository.fetchProfiles();
 	}
 
-	public List<MeterReading> fetchMeters() {
-		return meterRepository.fetchMeters();
+	public List<MeterReading> fetchMeterReadings() {
+		return meterRepository.fetchMeterReadings();
 		}
 
 }

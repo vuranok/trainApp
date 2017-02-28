@@ -10,7 +10,7 @@ import com.powerhouse.interview.entity.Profile;
 
 public class Converter {
 	
-	public Map<String, Profile> convertToProfileMap(List<String> inputList) throws BusinessFault {
+	public Map<String, Profile> convertToProfileMapFromCommaSeperatedStrings(List<String> inputList) throws BusinessFault {
 		
 		Map<String, Profile> map = new HashMap<String, Profile>();
 
@@ -34,7 +34,7 @@ public class Converter {
 		return map;
 	}
 
-	public Map<Integer, MeterReading> convertToMeterReadingMap(List<String> meterReadings) throws BusinessFault {
+	public Map<Integer, MeterReading> convertToMeterReadingsMapFromCommaSeperatedStrings(List<String> meterReadings) throws BusinessFault {
 		
 		Map<Integer, MeterReading> map = new HashMap<Integer, MeterReading>();
 
@@ -65,7 +65,7 @@ public class Converter {
 		return map;
 	}
 
-	public Map<String, Profile> convertToMap(List<Profile> profiles) {
+	public Map<String, Profile> convertToProfileMap(List<Profile> profiles) {
 		
 		Map<String, Profile> map = new HashMap<String, Profile>();
 
@@ -75,4 +75,16 @@ public class Converter {
 		
 		return map;
 	}
+	
+	public Map<Integer, MeterReading> convertToMeterReadingsMap(List<MeterReading> meterReadings) {
+		
+		Map<Integer, MeterReading> map = new HashMap<Integer, MeterReading>();
+
+		for(MeterReading meterReading : meterReadings) {
+			map.put(meterReading.getMeterID(), meterReading);
+		}
+		
+		return map;
+	}
+	
 }

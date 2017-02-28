@@ -13,6 +13,10 @@ public class MeterReading {
 	private String profileName;
 	private Map<Month, Integer> meterReadingMap = new TreeMap<Month, Integer>(new MonthComparator());
 	
+	
+	public MeterReading() {
+	}
+	
 	public MeterReading(Integer meterID, String profileName) {
 		this.meterID = meterID;
 		this.profileName = profileName;
@@ -23,6 +27,14 @@ public class MeterReading {
 		for(Entry<Month, Integer> entry : meterReading.getMeterReadingMap().entrySet()) {
 			this.addReading(entry.getKey(), entry.getValue());
 		}
+	}
+
+	public void setMeterID(Integer meterID) {
+		this.meterID = meterID;
+	}
+
+	public void setMeterReadingMap(Map<Month, Integer> meterReadingMap) {
+		this.meterReadingMap = meterReadingMap;
 	}
 
 	public void addReading(String[] parts) throws BusinessFault {

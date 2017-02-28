@@ -27,7 +27,7 @@ public class ConverterTest {
 		List<String> inputList = new ArrayList<String>();
 		
 		inputList.add("JAN,A;0.15");
-		Map<String, Profile> convertedMap = converter.convertToProfileMap(inputList);
+		Map<String, Profile> convertedMap = converter.convertToProfileMapFromCommaSeperatedStrings(inputList);
 	}
 
 	@Test
@@ -47,7 +47,7 @@ public class ConverterTest {
 		inputList.add("NOV,A,0.1");
 		inputList.add("DEC,A,0.15");
 		
-		Map<String, Profile> convertedMap = converter.convertToProfileMap(inputList);
+		Map<String, Profile> convertedMap = converter.convertToProfileMapFromCommaSeperatedStrings(inputList);
 		
 		assertEquals(1, convertedMap.size());
 		assertEquals(12, convertedMap.get("A").getFractionMap().size());
@@ -62,7 +62,7 @@ public class ConverterTest {
 		inputList.add("FEB,A,0.1");
 		inputList.add("FEB,B,0.21");
 		
-		Map<String, Profile> convertedMap = converter.convertToProfileMap(inputList);
+		Map<String, Profile> convertedMap = converter.convertToProfileMapFromCommaSeperatedStrings(inputList);
 		
 		assertEquals(2, convertedMap.size());
 		assertEquals(2, convertedMap.get("A").getFractionMap().size());

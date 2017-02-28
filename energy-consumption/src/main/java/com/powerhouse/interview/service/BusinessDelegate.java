@@ -1,6 +1,7 @@
 package com.powerhouse.interview.service;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +28,7 @@ public class BusinessDelegate {
 	public Map<String, Profile> handleProfiles(List<String> profiles) throws IOException, BusinessFault {
 
 		removeHeaderForProfile(profiles);
-		Map<String, Profile> inputProfileMap = converter.convertToProfileMap(profiles);
+		Map<String, Profile> inputProfileMap = converter.convertToProfileMapFromCommaSeperatedStrings(profiles);
 		validateProfiles(inputProfileMap);
 		service.persistProfileMap(inputProfileMap);
 		return inputProfileMap;
@@ -36,7 +37,7 @@ public class BusinessDelegate {
 	public Map<Integer, MeterReading> handleMeterReadings(List<String> meterReadings) throws IOException, BusinessFault {
 
 		removeHeaderForMeterReadings(meterReadings);
-		Map<Integer, MeterReading> inputMeterReadingMap = converter.convertToMeterReadingMap(meterReadings);
+		Map<Integer, MeterReading> inputMeterReadingMap = converter.convertToMeterReadingsMapFromCommaSeperatedStrings(meterReadings);
 		try {
 			validateMeterReadings(inputMeterReadingMap);
 		} catch (BusinessFault e) {
@@ -100,7 +101,7 @@ public class BusinessDelegate {
 			if (!validate.meterReading(meterReading.getMeterReadingMap())) {
 				builder.append("For a given meter a reading for a month should not be lower than the previous one. Meter id is ");
 				builder.append(meterReading.getMeterID());
-				builder.append("\n");
+				builder.append(". ");
 				inputMeterReadingMap.remove(meterReading.getMeterID());
 				continue;
 			}
@@ -110,7 +111,7 @@ public class BusinessDelegate {
 				builder.append(meterReading.getMeterID());
 				builder.append(" profile name is ");
 				builder.append(meterReading.getProfileName());
-				builder.append("\n");
+				builder.append(". ");
 				inputMeterReadingMap.remove(meterReading.getMeterID());
 				continue;
 			}
@@ -119,7 +120,7 @@ public class BusinessDelegate {
 				builder.append(meterReading.getMeterID());
 				builder.append(" profile name is ");
 				builder.append(meterReading.getProfileName());
-				builder.append("\n");
+				builder.append(". ");
 				inputMeterReadingMap.remove(meterReading.getMeterID());
 				continue;
 			}
@@ -135,16 +136,29 @@ public class BusinessDelegate {
 		return service.fetchProfiles();
 	}
 
-	public List<MeterReading> fetchMeters() {
+	public List<MeterReading> fetchMeterReadings() {
 		
-		return service.fetchMeters();
+		return service.fetchMeterReadings();
 	}
 
-	public void createProfiles(List<Profile> profiles) throws BusinessFault {
+	public void recordProfiles(List<Profile> profiles) throws BusinessFault {
 
-		Map<String, Profile> inputProfileMap = converter.convertToMap(profiles);
+		Map<String, Profile> inputProfileMap = converter.convertToProfileMap(profiles);
 		validateProfiles(inputProfileMap);
 		service.persistProfileMap(inputProfileMap);
+	}
+
+	public Collection<MeterReading> recordMeterReadings(List<MeterReading> meterReadings) throws BusinessFault {
+
+		Map<Integer, MeterReading> inputMeterReadingMap = converter.convertToMeterReadingsMap(meterReadings);
+		try {
+			validateMeterReadings(inputMeterReadingMap);
+		} catch (BusinessFault e) {
+			throw e;
+		} finally {
+			service.persistMeterReadingMap(inputMeterReadingMap);
+		}
+		return inputMeterReadingMap.values();
 	}
 
 }

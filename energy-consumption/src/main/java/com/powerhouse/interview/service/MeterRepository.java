@@ -88,7 +88,7 @@ public class MeterRepository {
 		}
 	}
 
-	public List<MeterReading> fetchMeters() {
+	public List<MeterReading> fetchMeterReadings() {
 		return jdbc
 				.query("select id, profile_name, january, february, march, april, may, june, july, august, september, october, november, december "
 						+ "from METER", new RowMapper<MeterReading>() {
