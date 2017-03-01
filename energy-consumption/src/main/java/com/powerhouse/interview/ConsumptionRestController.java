@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,23 +14,23 @@ import org.springframework.web.bind.annotation.RestController;
 import com.powerhouse.interview.entity.MeterReading;
 import com.powerhouse.interview.entity.Month;
 import com.powerhouse.interview.entity.Profile;
-import com.powerhouse.interview.service.BusinessDelegate;
+import com.powerhouse.interview.service.FileBusinessDelegate;
+import com.powerhouse.interview.util.Converter;
 
 @RestController
 @RequestMapping(value="/energy")
 public class ConsumptionRestController {
 
 	@Autowired
-	BusinessDelegate businessDelegate;
+	FileBusinessDelegate businessDelegate;
+	
+	private Converter converter = new Converter();
 	
 	@RequestMapping(value = "/profiles", method = RequestMethod.POST)
-	public String recordProfiles(@RequestBody ArrayList<Profile> profiles) {
-		try {
-			businessDelegate.recordProfiles(profiles);
-		} catch (BusinessFault e) {
-			return e.getMessage();
-		}
-		return "All profiles are recorded.";
+	public String recordProfiles(@RequestBody ArrayList<Profile> profiles) throws BusinessFault {
+		businessDelegate.recordProfiles(profiles);
+		
+		return converter.profilesToJsonResponse(profiles);
 	}
 	
 	@RequestMapping(value = "/profiles", method = RequestMethod.GET)

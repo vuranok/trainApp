@@ -1,16 +1,20 @@
 package com.powerhouse.interview.util;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.google.gson.Gson;
 import com.powerhouse.interview.BusinessFault;
 import com.powerhouse.interview.entity.MeterReading;
 import com.powerhouse.interview.entity.Profile;
+import com.powerhouse.interview.entity.Response;
 
 public class Converter {
 	
-	public Map<String, Profile> convertToProfileMapFromCommaSeperatedStrings(List<String> inputList) throws BusinessFault {
+	public Collection<Profile> convertToProfileFromCommaSeperatedStrings(List<String> inputList) throws BusinessFault {
 		
 		Map<String, Profile> map = new HashMap<String, Profile>();
 
@@ -31,10 +35,10 @@ public class Converter {
 			}
 		}
 		
-		return map;
+		return map.values();
 	}
 
-	public Map<Integer, MeterReading> convertToMeterReadingsMapFromCommaSeperatedStrings(List<String> meterReadings) throws BusinessFault {
+	public Collection<MeterReading> convertToMeterReadingsFromCommaSeperatedStrings(List<String> meterReadings) throws BusinessFault {
 		
 		Map<Integer, MeterReading> map = new HashMap<Integer, MeterReading>();
 
@@ -62,18 +66,7 @@ public class Converter {
 			}
 		}
 		
-		return map;
-	}
-
-	public Map<String, Profile> convertToProfileMap(List<Profile> profiles) {
-		
-		Map<String, Profile> map = new HashMap<String, Profile>();
-
-		for(Profile profile : profiles) {			
-			map.put(profile.getName(), profile);
-		}
-		
-		return map;
+		return map.values();
 	}
 	
 	public Map<Integer, MeterReading> convertToMeterReadingsMap(List<MeterReading> meterReadings) {
@@ -85,6 +78,18 @@ public class Converter {
 		}
 		
 		return map;
+	}
+
+	public String profilesToJsonResponse(ArrayList<Profile> profiles) {
+		Response response = new Response();
+		response.setDescription("The following profiles were successfully recorded.");
+		
+		for(Profile profile : profiles) {
+			response.getProfileNames().add(profile.getName());
+		}
+		
+		Gson gson = new Gson();
+		return gson.toJson(response, Response.class);
 	}
 	
 }
