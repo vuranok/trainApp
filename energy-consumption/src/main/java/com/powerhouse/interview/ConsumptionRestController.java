@@ -1,5 +1,6 @@
 package com.powerhouse.interview;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,16 +62,17 @@ public class ConsumptionRestController {
 	}
 	
 	@RequestMapping(value = "/consumption", method = RequestMethod.GET)
-	public String getMeterReadings(Integer meterId, String month) {
+	public String getMeterReadings(Integer meterId, String month) throws BusinessFault {
 		Month monthEnum;
 		try {
 			monthEnum = Month.valueOf(month.toUpperCase());
 		} catch (Exception e) {
-			throw new IllegalArgumentException("Given month should be like one of the followings ignoring case "
+			throw new IllegalArgumentException("Given month must be in the following list (ignoring case) "
 					+ "january, february, march, april, may, june, july, august, september, october, november, december");
 		}
 
-		return meterId + " " + month;
+		Integer consumption = businessDelegate.calculateConsumption(meterId, monthEnum);
+		return converter.consumptionToJsonResponse(meterId, monthEnum, consumption);
 	}
 	
 }

@@ -7,7 +7,28 @@ public class Response {
 	private List<String> recordedProfileNames;
 	private List<Integer> recordedMeterIds;
 	private List<String> meterReadingsViolations;
+	private Integer meterId;
+	private Month month;
+	private Integer consumption;
 
+	public Integer getMeterId() {
+		return meterId;
+	}
+	public void setMeterId(Integer meterId) {
+		this.meterId = meterId;
+	}
+	public Month getMonth() {
+		return month;
+	}
+	public void setMonth(Month month) {
+		this.month = month;
+	}
+	public Integer getConsumption() {
+		return consumption;
+	}
+	public void setConsumption(Integer consumption) {
+		this.consumption = consumption;
+	}
 	public List<String> getRecordedProfileNames() {
 		return recordedProfileNames;
 	}

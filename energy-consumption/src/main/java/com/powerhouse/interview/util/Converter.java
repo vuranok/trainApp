@@ -1,5 +1,6 @@
 package com.powerhouse.interview.util;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -9,6 +10,7 @@ import java.util.Map;
 import com.google.gson.Gson;
 import com.powerhouse.interview.BusinessFault;
 import com.powerhouse.interview.entity.MeterReading;
+import com.powerhouse.interview.entity.Month;
 import com.powerhouse.interview.entity.Profile;
 import com.powerhouse.interview.entity.Response;
 
@@ -118,6 +120,19 @@ public class Converter {
 			for(String violationException : violationExceptions) {
 				response.getMeterReadingsViolations().add(violationException);
 			}
+		}
+		
+		Gson gson = new Gson();
+		return gson.toJson(response, Response.class);
+	}
+
+	public String consumptionToJsonResponse(Integer meterId, Month monthEnum, Integer consumption) {
+		Response response = new Response();
+		
+		response.setMeterId(meterId);
+		response.setMonth(monthEnum);
+		if(consumption != null) {
+			response.setConsumption(consumption);
 		}
 		
 		Gson gson = new Gson();

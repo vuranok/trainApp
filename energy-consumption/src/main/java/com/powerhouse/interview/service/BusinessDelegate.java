@@ -108,4 +108,20 @@ public class BusinessDelegate {
 		service.persistMeterReadingMap(meterReading);
 	}
 
+	public Integer calculateConsumption(Integer meterId, Month monthEnum) throws BusinessFault {
+		MeterReading meterReading = service.getMeterReading(meterId);
+		if(meterReading == null) {
+			throw new BusinessFault("No records exist for given meter id " + meterId);
+		}
+		
+		Integer inputMonthReading = meterReading.getMeterReadingMap().get(monthEnum);
+		Integer previousMonthReading = 0;
+		if(!monthEnum.equals(Month.JANUARY)) {			
+			Month previousMonth = Month.getPreviousMonth(monthEnum);
+			previousMonthReading = meterReading.getMeterReadingMap().get(previousMonth);
+		}
+		
+		return inputMonthReading - previousMonthReading;
+	}
+
 }
