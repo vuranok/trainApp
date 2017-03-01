@@ -3,8 +3,8 @@ package com.powerhouse.interview.util;
 import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,7 +27,7 @@ public class ConverterTest {
 		List<String> inputList = new ArrayList<String>();
 		
 		inputList.add("JAN,A;0.15");
-		Map<String, Profile> convertedMap = converter.convertToProfileMapFromCommaSeperatedStrings(inputList);
+		converter.convertToProfilesFromCommaSeperatedStrings(inputList);
 	}
 
 	@Test
@@ -47,14 +47,14 @@ public class ConverterTest {
 		inputList.add("NOV,A,0.1");
 		inputList.add("DEC,A,0.15");
 		
-		Map<String, Profile> convertedMap = converter.convertToProfileMapFromCommaSeperatedStrings(inputList);
+		Collection<Profile> profiles = converter.convertToProfilesFromCommaSeperatedStrings(inputList);
 		
-		assertEquals(1, convertedMap.size());
-		assertEquals(12, convertedMap.get("A").getFractionMap().size());
+		assertEquals(1, profiles.size());
+		assertEquals(12, profiles.iterator().next().getFractionMap().size());
 	}
 	
 	@Test
-	public void givenTwoSeperateProfilesMustBeInTheMap() throws BusinessFault {
+	public void givenTwoSeperateProfilesMustBeInTheConvertedList() throws BusinessFault {
 		List<String> inputList = new ArrayList<String>();
 		
 		inputList.add("JAN,A,0.2");
@@ -62,14 +62,20 @@ public class ConverterTest {
 		inputList.add("FEB,A,0.1");
 		inputList.add("FEB,B,0.21");
 		
-		Map<String, Profile> convertedMap = converter.convertToProfileMapFromCommaSeperatedStrings(inputList);
+		Collection<Profile> profiles = converter.convertToProfilesFromCommaSeperatedStrings(inputList);
 		
-		assertEquals(2, convertedMap.size());
-		assertEquals(2, convertedMap.get("A").getFractionMap().size());
-		assertEquals(2, convertedMap.get("B").getFractionMap().size());
-		assertEquals(0.2d, convertedMap.get("A").getFractionMap().get(Month.JANUARY).doubleValue(), 0);
-		assertEquals(0.18d, convertedMap.get("B").getFractionMap().get(Month.JANUARY).doubleValue(), 0);
-		assertEquals(0.1d, convertedMap.get("A").getFractionMap().get(Month.FEBRUARY).doubleValue(), 0);
-		assertEquals(0.21d, convertedMap.get("B").getFractionMap().get(Month.FEBRUARY).doubleValue(), 0);
+		assertEquals(2, profiles.size());
+		for(Profile profile : profiles) {
+			if(profile.getName().equals("A")) {
+				assertEquals(2, profile.getFractionMap().size());
+				assertEquals(0.2d, profile.getFractionMap().get(Month.JANUARY).doubleValue(), 0);
+				assertEquals(0.1d, profile.getFractionMap().get(Month.FEBRUARY).doubleValue(), 0);				
+			}
+			else {				
+				assertEquals(2, profile.getFractionMap().size());
+				assertEquals(0.18d, profile.getFractionMap().get(Month.JANUARY).doubleValue(), 0);
+				assertEquals(0.21d, profile.getFractionMap().get(Month.FEBRUARY).doubleValue(), 0);
+			}
+		}
 	}
 }

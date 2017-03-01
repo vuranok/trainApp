@@ -1,5 +1,6 @@
 package com.powerhouse.interview.service;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,11 +34,9 @@ public class BusinessService {
 		this.meterRepository = meterRepository;
 	}
 	
-	public void persistProfileMap(Map<String, Profile> givenProfileMap) {
-		for (Profile profile : givenProfileMap.values()) {
+	public void persistProfiles(Collection<Profile> givenProfiles) {
+		for (Profile profile : givenProfiles) {
 			profileRepository.save(profile);
-		}
-		for (Profile profile : givenProfileMap.values()) {
 			PROFILE_MAP.put(profile.getName(), new Profile(profile));
 		}
 	}
@@ -55,13 +54,9 @@ public class BusinessService {
 		}
 	}
 
-	public void persistMeterReadingMap(Map<Integer, MeterReading> givenMeterReadingMap) {
-		for (MeterReading meterReading : givenMeterReadingMap.values()) {
-			meterRepository.save(meterReading);
-		}
-		for (MeterReading meterReading : givenMeterReadingMap.values()) {
-			METER_MAP.put(meterReading.getMeterID(), new MeterReading(meterReading));
-		}
+	public void persistMeterReadingMap(MeterReading meterReading) {
+		meterRepository.save(meterReading);
+		METER_MAP.put(meterReading.getMeterID(), new MeterReading(meterReading));
 	}
 	
 	public MeterReading getMeterReading(Integer id) {

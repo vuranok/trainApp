@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.powerhouse.interview.entity.MeterReading;
 import com.powerhouse.interview.entity.Profile;
 import com.powerhouse.interview.service.BusinessDelegate;
+import com.powerhouse.interview.util.Converter;
 import com.powerhouse.interview.util.FileUtil;
 
 @Controller
@@ -27,6 +27,7 @@ public class ConsumptionFileController {
 	BusinessDelegate businessDelegate;
 
 	private FileUtil fileUtil = new FileUtil();
+	private Converter converter = new Converter();
 
 	@RequestMapping(method = RequestMethod.GET)
 	public String index() {
@@ -39,8 +40,8 @@ public class ConsumptionFileController {
 		if (isFileNameSuffixCsv(file.getOriginalFilename())) {
 			try {
 				List<String> profiles = fileUtil.readLines(file);
-				Map<String, Profile> successfullyCreatedProfileMap = businessDelegate.handleProfiles(profiles);
-				addSuccessfullyCreatedProfilesAttribute(redirectAttributes, "profileMessage", successfullyCreatedProfileMap.values());
+				Collection<Profile> successfullyCreatedProfiles = businessDelegate.handleProfiles(profiles);
+				addSuccessfullyCreatedProfilesAttribute(redirectAttributes, "profileMessage", successfullyCreatedProfiles);
 			} catch (IOException e) {
 				redirectAttributes.addFlashAttribute("profileMessage", e.getMessage());
 			} catch (BusinessFault e) {
@@ -84,9 +85,13 @@ public class ConsumptionFileController {
 		if (isFileNameSuffixCsv(file.getOriginalFilename())) {
 			try {
 				List<String> meterReadings = fileUtil.readLines(file);
-				Map<Integer, MeterReading> successfullyCreatedMeterReadingsMap = businessDelegate.handleMeterReadings(meterReadings);
-				addSuccessfullyCreatedMeterReadingsAttribute(redirectAttributes, "meterReadingMessage", successfullyCreatedMeterReadingsMap.values());
-				redirectAttributes.addFlashAttribute("meterReadingMessage", businessDelegate.getMeterReading(1) + "\n" + businessDelegate.getProfile("B"));
+				removeHeaderForMeterReadings(meterReadings);
+				Collection<MeterReading> inputMeterReadingMap = converter.convertToMeterReadingsFromCommaSeperatedStrings(meterReadings);
+				List<MeterReading> recordedMeterReadings = new ArrayList<MeterReading>();
+				List<String> violationExceptions = new ArrayList<>();
+				handleMeterReadings(inputMeterReadingMap, recordedMeterReadings, violationExceptions);
+				logRecordedReadings(redirectAttributes, recordedMeterReadings);
+				logViolations(redirectAttributes, violationExceptions);
 			} catch (IOException e) {
 				redirectAttributes.addFlashAttribute("meterReadingMessage", e.getMessage());
 			} catch (BusinessFault e) {
@@ -102,16 +107,44 @@ public class ConsumptionFileController {
 
 		return "redirect:/";
 	}
-
-	private void addSuccessfullyCreatedMeterReadingsAttribute(RedirectAttributes redirectAttributes, String attributeName, Collection<MeterReading> values) {
-		List<MeterReading> successfullyCreatedMeterReadings = new ArrayList<MeterReading>();
-		for(MeterReading meterReading : values) {
-			MeterReading currentMeterReadingInDB = businessDelegate.getMeterReading(meterReading.getMeterID());
-			if(currentMeterReadingInDB != null) {
-				successfullyCreatedMeterReadings.add(currentMeterReadingInDB);
-			}						
+	
+	public void removeHeaderForMeterReadings(List<String> meterReadings) {
+		if (!meterReadings.isEmpty()) {
+			String firstLine = meterReadings.get(0);
+			String[] arr = firstLine.split(",");
+			if (arr != null && arr.length > 0) {
+				try {
+					Integer.parseInt(arr[0]);
+				} catch (NumberFormatException e) {
+					meterReadings.remove(0);
+				}
+			}
 		}
-		redirectAttributes.addFlashAttribute(attributeName, successfullyCreatedMeterReadings);
+	}
+	
+	private void handleMeterReadings(Collection<MeterReading> inputMeterReadings, List<MeterReading> recordedMeterReadings,
+			List<String> violationExceptions) {
+		for(MeterReading meterReading : inputMeterReadings) {
+			try {
+				businessDelegate.validateMeterReading(meterReading);
+				businessDelegate.recordMeterReading(meterReading);
+				recordedMeterReadings.add(meterReading);
+			} catch (BusinessFault e) {
+				violationExceptions.add(e.getMessage());
+			}
+		}
+	}
+
+	private void logViolations(RedirectAttributes redirectAttributes, List<String> violationExceptions) {
+		if(!violationExceptions.isEmpty()) {					
+			redirectAttributes.addFlashAttribute("meterReadingViolations", violationExceptions);
+		}
+	}
+
+	private void logRecordedReadings(RedirectAttributes redirectAttributes, List<MeterReading> recordedMeterReadings) {
+		if(!recordedMeterReadings.isEmpty()) {					
+			redirectAttributes.addFlashAttribute("meterReadingMessage", recordedMeterReadings);
+		}
 	}
 
 }

@@ -1,6 +1,6 @@
 package com.powerhouse.interview.service;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,29 +30,6 @@ public class BusinessDelegateTest {
 		businessDelegate.removeHeaderForProfile(profiles);
 		
 		assertEquals(1, profiles.size());
-	}
-
-	@Test
-	public void testRemoveHeaderForMeterReadings() {
-		BusinessDelegate businessDelegate = new BusinessDelegate();
-		List<String> meterReadings = new ArrayList<String>();
-		meterReadings.add("MeterID,Profile,Month,Meter reading");
-		meterReadings.add("0001,A,JAN,10");
-		
-		businessDelegate.removeHeaderForMeterReadings(meterReadings);
-		
-		assertEquals(1, meterReadings.size());
-	}
-	
-	@Test
-	public void ifFirstRowIsAboutMeterReadingThenItMustNotBeRemoved() {
-		BusinessDelegate businessDelegate = new BusinessDelegate();
-		List<String> meterReadings = new ArrayList<String>();
-		meterReadings.add("0001,A,JAN,10");
-		
-		businessDelegate.removeHeaderForMeterReadings(meterReadings);
-		
-		assertEquals(1, meterReadings.size());
 	}
 
 }

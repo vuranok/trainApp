@@ -14,7 +14,7 @@ import com.powerhouse.interview.entity.Response;
 
 public class Converter {
 	
-	public Collection<Profile> convertToProfileFromCommaSeperatedStrings(List<String> inputList) throws BusinessFault {
+	public Collection<Profile> convertToProfilesFromCommaSeperatedStrings(List<String> inputList) throws BusinessFault {
 		
 		Map<String, Profile> map = new HashMap<String, Profile>();
 
@@ -80,12 +80,44 @@ public class Converter {
 		return map;
 	}
 
+	public Map<String, Profile> convertToProfileMap(List<Profile> profiles) {
+		Map<String, Profile> map = new HashMap<String, Profile>();
+
+		for(Profile profile : profiles) {			
+			map.put(profile.getName(), profile);
+		}	
+		return map;
+	}
+	
 	public String profilesToJsonResponse(ArrayList<Profile> profiles) {
 		Response response = new Response();
-		response.setDescription("The following profiles were successfully recorded.");
+		response.setRecordedProfileNames(new ArrayList<String>());
 		
 		for(Profile profile : profiles) {
-			response.getProfileNames().add(profile.getName());
+			response.getRecordedProfileNames().add(profile.getName());
+		}
+		
+		Gson gson = new Gson();
+		return gson.toJson(response, Response.class);
+	}
+
+	public String meterReadingsToJsonResponse(List<MeterReading> recordedMeterReadings, List<String> violationExceptions) {
+		Response response = new Response();
+		
+		if(!recordedMeterReadings.isEmpty()) {
+			response.setRecordedMeterIds(new ArrayList<Integer>());
+			
+			for(MeterReading meterReading : recordedMeterReadings) {
+				response.getRecordedMeterIds().add(meterReading.getMeterID());
+			}
+		}
+		
+		if(!violationExceptions.isEmpty()) {
+			response.setMeterReadingsViolations(new ArrayList<String>());
+
+			for(String violationException : violationExceptions) {
+				response.getMeterReadingsViolations().add(violationException);
+			}
 		}
 		
 		Gson gson = new Gson();

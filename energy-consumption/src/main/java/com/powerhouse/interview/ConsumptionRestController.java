@@ -1,7 +1,6 @@
 package com.powerhouse.interview;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.powerhouse.interview.entity.MeterReading;
 import com.powerhouse.interview.entity.Month;
 import com.powerhouse.interview.entity.Profile;
-import com.powerhouse.interview.service.FileBusinessDelegate;
+import com.powerhouse.interview.service.BusinessDelegate;
 import com.powerhouse.interview.util.Converter;
 
 @RestController
@@ -22,7 +21,7 @@ import com.powerhouse.interview.util.Converter;
 public class ConsumptionRestController {
 
 	@Autowired
-	FileBusinessDelegate businessDelegate;
+	BusinessDelegate businessDelegate;
 	
 	private Converter converter = new Converter();
 	
@@ -40,14 +39,20 @@ public class ConsumptionRestController {
 	
 	@RequestMapping(value = "/meters", method = RequestMethod.POST)
 	public String recordMeterReadings(@RequestBody ArrayList<MeterReading> meterReadings) throws BusinessFault {
-		Collection<MeterReading> recordedMeterReadings = null;
-
-		recordedMeterReadings = businessDelegate.recordMeterReadings(meterReadings);
-
-		if (recordedMeterReadings != null) {
-			return "Followiıng meter readings are recorded.\n" + recordedMeterReadings.toString();
+		List<MeterReading> recordedMeterReadings = new ArrayList<MeterReading>();
+		List<String> violationExceptions = new ArrayList<>();
+		
+		for(MeterReading meterReading : meterReadings) {
+			try {
+				businessDelegate.validateMeterReading(meterReading);
+				businessDelegate.recordMeterReading(meterReading);
+				recordedMeterReadings.add(meterReading);
+			} catch (BusinessFault e) {
+				violationExceptions.add(e.getMessage());
+			}
 		}
-		return "No any meterReading was recorded.";
+
+		return converter.meterReadingsToJsonResponse(recordedMeterReadings, violationExceptions);
 	}
 	
 	@RequestMapping(value = "/meters", method = RequestMethod.GET)

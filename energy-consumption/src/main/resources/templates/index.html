@@ -18,7 +18,7 @@
 		
 		<div th:if="${profileMessage}">
 			<p>
-				Result:<br></br> 
+				Recorded Profiles:<br></br> 
 			</p>
 			<ul th:each="profileMessage : ${profileMessage}">
 				<li><span th:text="${profileMessage}"></span></li>
@@ -37,10 +37,18 @@
 		
 		<div th:if="${meterReadingMessage}">
 			<p>
-				Result:<br></br> 
+				Recorded Meter Readings:<br></br> 
 			</p>
 			<ul th:each="meterReadingMessage : ${meterReadingMessage}">
 				<li><span th:text="${meterReadingMessage}"></span></li>
+			</ul>
+		</div>
+		<div th:if="${meterReadingViolations}">
+			<p>
+				Meter Reading Violations:<br></br> 
+			</p>
+			<ul th:each="meterReadingViolations : ${meterReadingViolations}">
+				<li><span th:text="${meterReadingViolations}"></span></li>
 			</ul>
 		</div>
 	</form>
