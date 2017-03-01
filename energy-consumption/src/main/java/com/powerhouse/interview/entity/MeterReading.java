@@ -2,10 +2,9 @@ package com.powerhouse.interview.entity;
 
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import com.powerhouse.interview.BusinessFault;
-
-import java.util.TreeMap;
 
 public class MeterReading {
 
