@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.stereotype.Service;
+
 import com.google.gson.Gson;
 import com.powerhouse.interview.BusinessFault;
 import com.powerhouse.interview.entity.MeterReading;
@@ -13,6 +15,7 @@ import com.powerhouse.interview.entity.Month;
 import com.powerhouse.interview.entity.Profile;
 import com.powerhouse.interview.entity.Response;
 
+@Service
 public class Converter {
 	
 	public Collection<Profile> convertToProfilesFromCommaSeperatedStrings(List<String> inputList) throws BusinessFault {

@@ -23,7 +23,8 @@ public class ConsumptionRestController {
 	@Autowired
 	BusinessDelegate businessDelegate;
 	
-	private Converter converter = new Converter();
+	@Autowired
+	private Converter converter;
 	
 	@RequestMapping(value = "/profiles", method = RequestMethod.POST)
 	public String recordProfiles(@RequestBody ArrayList<Profile> profiles) throws BusinessFault {
@@ -72,6 +73,10 @@ public class ConsumptionRestController {
 
 		Integer consumption = businessDelegate.calculateConsumption(meterId, monthEnum);
 		return converter.consumptionToJsonResponse(meterId, monthEnum, consumption);
+	}
+
+	public void setConverter(Converter converter) {
+		this.converter = converter;
 	}
 	
 }
