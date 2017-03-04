@@ -71,7 +71,7 @@ public class ConsumptionRestController {
 					+ "january, february, march, april, may, june, july, august, september, october, november, december");
 		}
 
-		Integer consumption = businessDelegate.calculateConsumption(meterId, monthEnum);
+		Double consumption = businessDelegate.calculateConsumption(meterId, monthEnum);
 		return converter.consumptionToJsonResponse(meterId, monthEnum, consumption);
 	}
 

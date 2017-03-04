@@ -41,7 +41,7 @@ public class ConsumptionFileController {
 			try {
 				List<String> profiles = fileUtil.readLines(file);
 				Collection<Profile> successfullyCreatedProfiles = businessDelegate.handleProfiles(profiles);
-				addSuccessfullyCreatedProfilesAttribute(redirectAttributes, "profileMessage", successfullyCreatedProfiles);
+				flashSuccessfullyCreatedProfiles(redirectAttributes, "profileMessage", successfullyCreatedProfiles);
 			} catch (IOException e) {
 				redirectAttributes.addFlashAttribute("profileMessage", e.getMessage());
 			} catch (BusinessFault e) {
@@ -58,7 +58,7 @@ public class ConsumptionFileController {
 		return "redirect:/";
 	}
 
-	private void addSuccessfullyCreatedProfilesAttribute(RedirectAttributes redirectAttributes, String attributeName, Collection<Profile> profiles) {
+	private void flashSuccessfullyCreatedProfiles(RedirectAttributes redirectAttributes, String attributeName, Collection<Profile> profiles) {
 		List<Profile> successfullyCreatedProfiles = new ArrayList<Profile>();
 		for(Profile profile : profiles) {
 			Profile currentProfileInDB = businessDelegate.getProfile(profile.getName());
@@ -122,7 +122,7 @@ public class ConsumptionFileController {
 		}
 	}
 	
-	private void handleMeterReadings(Collection<MeterReading> inputMeterReadings, List<MeterReading> recordedMeterReadings,
+	public void handleMeterReadings(Collection<MeterReading> inputMeterReadings, List<MeterReading> recordedMeterReadings,
 			List<String> violationExceptions) {
 		for(MeterReading meterReading : inputMeterReadings) {
 			try {

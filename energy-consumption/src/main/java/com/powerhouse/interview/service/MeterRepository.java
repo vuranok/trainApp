@@ -29,25 +29,25 @@ public class MeterRepository {
 						+ "from METER where id = ?", new Integer[] { meterID }, new RowMapper<MeterReading>() {
 							public MeterReading mapRow(ResultSet rs, int rowNum) throws SQLException {
 								MeterReading meterReading = new MeterReading(rs.getInt(1), rs.getString(2));
-								meterReading.addReading(Month.JANUARY, rs.getInt(3));
-								meterReading.addReading(Month.FEBRUARY, rs.getInt(4));
-								meterReading.addReading(Month.MARCH, rs.getInt(5));
-								meterReading.addReading(Month.APRIL, rs.getInt(6));
-								meterReading.addReading(Month.MAY, rs.getInt(7));
-								meterReading.addReading(Month.JUNE, rs.getInt(8));
-								meterReading.addReading(Month.JULY, rs.getInt(9));
-								meterReading.addReading(Month.AUGUST, rs.getInt(10));
-								meterReading.addReading(Month.SEPTEMBER, rs.getInt(11));
-								meterReading.addReading(Month.OCTOBER, rs.getInt(12));
-								meterReading.addReading(Month.NOVEMBER, rs.getInt(13));
-								meterReading.addReading(Month.DECEMBER, rs.getInt(14));
+								meterReading.addReading(Month.JANUARY, rs.getDouble(3));
+								meterReading.addReading(Month.FEBRUARY, rs.getDouble(4));
+								meterReading.addReading(Month.MARCH, rs.getDouble(5));
+								meterReading.addReading(Month.APRIL, rs.getDouble(6));
+								meterReading.addReading(Month.MAY, rs.getDouble(7));
+								meterReading.addReading(Month.JUNE, rs.getDouble(8));
+								meterReading.addReading(Month.JULY, rs.getDouble(9));
+								meterReading.addReading(Month.AUGUST, rs.getDouble(10));
+								meterReading.addReading(Month.SEPTEMBER, rs.getDouble(11));
+								meterReading.addReading(Month.OCTOBER, rs.getDouble(12));
+								meterReading.addReading(Month.NOVEMBER, rs.getDouble(13));
+								meterReading.addReading(Month.DECEMBER, rs.getDouble(14));
 								return meterReading;
 							}
 						});
 	}
 
 	public void save(MeterReading meterReading) {
-		Map<Month, Integer> meterReadingMap = meterReading.getMeterReadingMap();
+		Map<Month, Double> meterReadingMap = meterReading.getMeterReadingMap();
 	
 		if(findOne(meterReading.getMeterID()).isEmpty()) {
 			jdbc.update(
@@ -94,18 +94,18 @@ public class MeterRepository {
 						+ "from METER", new RowMapper<MeterReading>() {
 							public MeterReading mapRow(ResultSet rs, int rowNum) throws SQLException {
 								MeterReading meterReading = new MeterReading(rs.getInt(1), rs.getString(2));
-								meterReading.addReading(Month.JANUARY, rs.getInt(3));
-								meterReading.addReading(Month.FEBRUARY, rs.getInt(4));
-								meterReading.addReading(Month.MARCH, rs.getInt(5));
-								meterReading.addReading(Month.APRIL, rs.getInt(6));
-								meterReading.addReading(Month.MAY, rs.getInt(7));
-								meterReading.addReading(Month.JUNE, rs.getInt(8));
-								meterReading.addReading(Month.JULY, rs.getInt(9));
-								meterReading.addReading(Month.AUGUST, rs.getInt(10));
-								meterReading.addReading(Month.SEPTEMBER, rs.getInt(11));
-								meterReading.addReading(Month.OCTOBER, rs.getInt(12));
-								meterReading.addReading(Month.NOVEMBER, rs.getInt(13));
-								meterReading.addReading(Month.DECEMBER, rs.getInt(14));
+								meterReading.addReading(Month.JANUARY, rs.getDouble(3));
+								meterReading.addReading(Month.FEBRUARY, rs.getDouble(4));
+								meterReading.addReading(Month.MARCH, rs.getDouble(5));
+								meterReading.addReading(Month.APRIL, rs.getDouble(6));
+								meterReading.addReading(Month.MAY, rs.getDouble(7));
+								meterReading.addReading(Month.JUNE, rs.getDouble(8));
+								meterReading.addReading(Month.JULY, rs.getDouble(9));
+								meterReading.addReading(Month.AUGUST, rs.getDouble(10));
+								meterReading.addReading(Month.SEPTEMBER, rs.getDouble(11));
+								meterReading.addReading(Month.OCTOBER, rs.getDouble(12));
+								meterReading.addReading(Month.NOVEMBER, rs.getDouble(13));
+								meterReading.addReading(Month.DECEMBER, rs.getDouble(14));
 								return meterReading;
 							}
 						});

@@ -128,7 +128,7 @@ public class Converter {
 		return gson.toJson(response, Response.class);
 	}
 
-	public String consumptionToJsonResponse(Integer meterId, Month monthEnum, Integer consumption) {
+	public String consumptionToJsonResponse(Integer meterId, Month monthEnum, Double consumption) {
 		Response response = new Response();
 		
 		response.setMeterId(meterId);

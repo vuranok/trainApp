@@ -1,6 +1,7 @@
 package com.powerhouse.interview.service;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,9 @@ public class BusinessDelegate {
 	@Autowired
 	private BusinessService service;
 	
-	private Validate validate = new Validate();
+	@Autowired
+	private Validate validate;
+	
 	private Converter converter = new Converter();
 	
 	public Collection<Profile> handleProfiles(List<String> profiles) throws IOException, BusinessFault {
@@ -108,20 +111,20 @@ public class BusinessDelegate {
 		service.persistMeterReadingMap(meterReading);
 	}
 
-	public Integer calculateConsumption(Integer meterId, Month monthEnum) throws BusinessFault {
+	public Double calculateConsumption(Integer meterId, Month monthEnum) throws BusinessFault {
 		MeterReading meterReading = service.getMeterReading(meterId);
 		if(meterReading == null) {
 			throw new BusinessFault("No records exist for given meter id " + meterId);
 		}
 		
-		Integer inputMonthReading = meterReading.getMeterReadingMap().get(monthEnum);
-		Integer previousMonthReading = 0;
+		BigDecimal inputMonthReading = BigDecimal.valueOf(meterReading.getMeterReadingMap().get(monthEnum));
+		BigDecimal previousMonthReading = BigDecimal.ZERO;
 		if(!monthEnum.equals(Month.JANUARY)) {			
 			Month previousMonth = Month.getPreviousMonth(monthEnum);
-			previousMonthReading = meterReading.getMeterReadingMap().get(previousMonth);
+			previousMonthReading = BigDecimal.valueOf(meterReading.getMeterReadingMap().get(previousMonth));
 		}
 		
-		return inputMonthReading - previousMonthReading;
+		return inputMonthReading.subtract(previousMonthReading).doubleValue();
 	}
 
 }

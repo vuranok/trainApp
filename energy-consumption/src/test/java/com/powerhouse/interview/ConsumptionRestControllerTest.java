@@ -14,6 +14,7 @@ import org.mockito.MockitoAnnotations;
 import com.powerhouse.interview.entity.MeterReading;
 import com.powerhouse.interview.service.BusinessDelegate;
 import com.powerhouse.interview.util.Converter;
+import com.powerhouse.interview.util.MeterReadingBuilder;
 
 public class ConsumptionRestControllerTest {
 
@@ -34,10 +35,8 @@ public class ConsumptionRestControllerTest {
 	@Test
 	public void recordedMeterIdAndViolationMessageMustExistInJsonResult() throws BusinessFault {
 		ArrayList<MeterReading> meterReadings = new ArrayList<MeterReading>();
-		MeterReading meterReading1 = new MeterReading();
-		meterReading1.setMeterID(1);
-		MeterReading meterReading2 = new MeterReading();
-		meterReading2.setMeterID(2);
+		MeterReading meterReading1 = MeterReadingBuilder.aMeterReading().withMeterId(1).build();
+		MeterReading meterReading2 = MeterReadingBuilder.aMeterReading().withMeterId(2).build();
 		meterReadings.add(meterReading1);
 		meterReadings.add(meterReading2);
 
@@ -53,4 +52,9 @@ public class ConsumptionRestControllerTest {
 				classUnderTest.recordMeterReadings(meterReadings));
 	}
 
+	@Test(expected=IllegalArgumentException.class)
+	public void anIllegalArgumentExceptionMustBeThrownWhenGivenMonthIsNotReadible() throws BusinessFault {
+		classUnderTest.getMeterReadings(3, "jan");
+	}
+	
 }

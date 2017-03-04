@@ -9,7 +9,7 @@ public class Response {
 	private List<String> meterReadingsViolations;
 	private Integer meterId;
 	private Month month;
-	private Integer consumption;
+	private Double consumption;
 
 	public Integer getMeterId() {
 		return meterId;
@@ -23,10 +23,10 @@ public class Response {
 	public void setMonth(Month month) {
 		this.month = month;
 	}
-	public Integer getConsumption() {
+	public Double getConsumption() {
 		return consumption;
 	}
-	public void setConsumption(Integer consumption) {
+	public void setConsumption(Double consumption) {
 		this.consumption = consumption;
 	}
 	public List<String> getRecordedProfileNames() {

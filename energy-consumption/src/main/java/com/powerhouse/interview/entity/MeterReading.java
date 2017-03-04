@@ -10,7 +10,7 @@ public class MeterReading {
 
 	private Integer meterID;
 	private String profileName;
-	private Map<Month, Integer> meterReadingMap = new TreeMap<Month, Integer>(new MonthComparator());
+	private Map<Month, Double> meterReadingMap = new TreeMap<Month, Double>(new MonthComparator());
 	
 	
 	public MeterReading() {
@@ -23,7 +23,7 @@ public class MeterReading {
 
 	public MeterReading(MeterReading meterReading) {
 		this(meterReading.getMeterID(), meterReading.getProfileName());
-		for(Entry<Month, Integer> entry : meterReading.getMeterReadingMap().entrySet()) {
+		for(Entry<Month, Double> entry : meterReading.getMeterReadingMap().entrySet()) {
 			this.addReading(entry.getKey(), entry.getValue());
 		}
 	}
@@ -32,7 +32,7 @@ public class MeterReading {
 		this.meterID = meterID;
 	}
 
-	public void setMeterReadingMap(Map<Month, Integer> meterReadingMap) {
+	public void setMeterReadingMap(Map<Month, Double> meterReadingMap) {
 		this.meterReadingMap = meterReadingMap;
 	}
 
@@ -43,12 +43,12 @@ public class MeterReading {
 			throw new BusinessFault("Given month value must be in {JAN, FEB, MAR, APR, MAY, JUN, JUL, AUG, SEP, OCT, NOV, DEC}");
 		}
 		
-		int reading = Integer.parseInt(parts[3]);
+		double reading = Double.parseDouble(parts[3]);
 		
 		meterReadingMap.put(month, reading);
 	}
 	
-	public void addReading(Month month, Integer reading) {
+	public void addReading(Month month, Double reading) {
 		
 		meterReadingMap.put(month, reading);
 	}
@@ -61,7 +61,7 @@ public class MeterReading {
 		this.profileName = profileName;
 	}
 
-	public Map<Month, Integer> getMeterReadingMap() {
+	public Map<Month, Double> getMeterReadingMap() {
 		return meterReadingMap;
 	}
 

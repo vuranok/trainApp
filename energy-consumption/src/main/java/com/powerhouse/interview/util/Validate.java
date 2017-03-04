@@ -49,7 +49,7 @@ public class Validate {
 		return true;
 	}
 
-	public boolean meterReading(Map<Month, Integer> map) {
+	public boolean meterReading(Map<Month, Double> map) {
 		if(map.get(Month.JANUARY) > map.get(Month.FEBRUARY) ||
 				map.get(Month.FEBRUARY) > map.get(Month.MARCH) ||
 				map.get(Month.MARCH) > map.get(Month.APRIL) ||
@@ -66,9 +66,9 @@ public class Validate {
 		return true;
 	}
 
-	public boolean consumptions(Map<Month, Integer> meterReadingMap, Map<Month, Double> fractionMap) {
+	public boolean consumptions(Map<Month, Double> meterReadingMap, Map<Month, Double> fractionMap) {
 		
-		Integer[] readings = new Integer[12];
+		Double[] readings = new Double[12];
 		Double[] fractions = new Double[12];
 		
 		meterReadingMap.values().toArray(readings);
@@ -76,14 +76,14 @@ public class Validate {
 
 		BigDecimal totalConsumption = getTotalConsumption(readings);
 		
-		boolean valid = validateConsumption(totalConsumption, fractions[0], readings[0]);
+		boolean valid = validateConsumption(totalConsumption, BigDecimal.valueOf(fractions[0]), BigDecimal.valueOf(readings[0]));
 		if(!valid) {
 			return valid;
 		}
 		
 		for(int i = 1; i < 12; i++) {
-			double fraction = fractions[i];
-			int consumption = readings[i] - readings[i - 1];
+			BigDecimal fraction = BigDecimal.valueOf(fractions[i]);
+			BigDecimal consumption = BigDecimal.valueOf(readings[i]).subtract(BigDecimal.valueOf(readings[i - 1]));
 			valid = validateConsumption(totalConsumption, fraction, consumption);
 			if(!valid) {
 				return valid;
@@ -93,24 +93,24 @@ public class Validate {
 		return true;
 	}
 
-	private boolean validateConsumption(BigDecimal totalConsumption, double fraction, int consumption) {
-		BigDecimal result = totalConsumption.multiply(BigDecimal.valueOf(fraction));
-		BigDecimal tolerance = result.multiply(new BigDecimal(0.25));
+	private boolean validateConsumption(BigDecimal totalConsumption, BigDecimal fraction, BigDecimal consumption) {
+		BigDecimal result = totalConsumption.multiply(fraction);
+		BigDecimal tolerance = result.multiply(BigDecimal.valueOf(0.25));
 		BigDecimal minValue = result.subtract(tolerance);
 		BigDecimal maxValue = result.add(tolerance);
 		
-		if(minValue.intValue() > consumption || consumption > maxValue.intValue()) {			
+		if(minValue.compareTo(consumption) > 0 || maxValue.compareTo(consumption) < 0) {			
 			return false;
 		}
 		return true;
 	}
 	
-	private BigDecimal getTotalConsumption(Integer[] readings) {
-		int total = 0;
-		for(Integer i : readings) {
-			total += i;
+	private BigDecimal getTotalConsumption(Double[] readings) {
+		BigDecimal total = BigDecimal.ZERO;
+		for(Double i : readings) {
+			total = total.add(new BigDecimal(i));
 		}
-		return new BigDecimal(total);
+		return total;
 	}
 	
 }

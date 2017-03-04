@@ -12,15 +12,15 @@ public class MonthComparatorTest {
 	@Test
 	public void testMonthOrder() {
 		Map<Month, Integer> map = new TreeMap<Month, Integer>(new MonthComparator());
+		map.put(Month.MAY, 1);
 		map.put(Month.DECEMBER, 1);
-		map.put(Month.NOVEMBER, 1);
 		map.put(Month.OCTOBER, 1);
-		map.put(Month.SEPTEMBER, 1);
+		map.put(Month.NOVEMBER, 1);
 		map.put(Month.AUGUST, 1);
 		map.put(Month.JULY, 1);
 		map.put(Month.JUNE, 1);
-		map.put(Month.MAY, 1);
 		map.put(Month.APRIL, 1);
+		map.put(Month.SEPTEMBER, 1);
 		map.put(Month.MARCH, 1);
 		map.put(Month.FEBRUARY, 1);
 		map.put(Month.JANUARY, 1);
