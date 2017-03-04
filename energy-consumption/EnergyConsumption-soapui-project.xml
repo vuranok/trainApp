@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project name="EnergyConsumption" resourceRoot="${projectDir}" soapui-version="5.3.0" id="9ecad0be-de65-419a-8785-3609b7c6ea31" activeEnvironment="Default" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:RestService" wadlVersion="http://wadl.dev.java.net/2009/02" name="EnergyConsumption" type="rest" basePath="" id="9036966f-e2fd-4e22-998a-2d05dcf0a801" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart=""/><con:endpoints><con:endpoint>http://localhost:8080</con:endpoint></con:endpoints><con:resource name="profiles" path="/energy/profiles" id="68d14cfb-3c70-4668-ae01-1b9346949d72"><con:settings/><con:parameters/><con:method name="postProfiles" method="POST" id="a36ac7dd-85dc-43b7-9143-eef1527c30be"><con:settings/><con:parameters/><con:representation type="REQUEST"><con:mediaType>application/xml</con:mediaType><con:params/><con:element xmlns:prof="http://localhost/energy/profiles">prof:Fault</con:element></con:representation><con:representation type="FAULT"><con:mediaType>application/json</con:mediaType><con:status>500 415</con:status><con:params/><con:element xmlns:prof="http://localhost/energy/profiles">prof:Fault</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>text/plain</con:mediaType><con:status>200</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json</con:mediaType><con:status>200</con:status><con:params/><con:element>Response</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/></con:representation><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="FAULT"><con:mediaType>application/json;charset=UTF-8</con:mediaType><con:status>400 500 422</con:status><con:params/><con:element xmlns:prof="http://localhost/energy/profiles">prof:Fault</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Request 1" mediaType="application/json" postQueryString="false" id="502cdf91-f8cb-4d63-9d56-b9c5588d6359"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="accept" value="application/json" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:endpoint>http://localhost:8080</con:endpoint><con:request>[
+	{
+	"name": "A",
+	"fractionMap":{    
+	         "JANUARY":0.2,
+	         "FEBRUARY":0.6,
+	         "MARCH":0,
+	         "APRIL":0,
+	         "MAY":0,
+	         "JUNE":0,
+	         "JULY":0.01,
+	         "AUGUST":0.05,
+	         "SEPTEMBER":0.02,
+	         "OCTOBER":0.01,
+	         "NOVEMBER":0.01,
+	         "DECEMBER":0.1
+	     }
+	},
+	{
+	"name": 2,
+	"fractionMap":{    
+	         "JANUARY":0.0,
+	         "FEBRUARY":0.0,
+	         "MARCH":0,
+	         "APRIL":0,
+	         "MAY":0,
+	         "JUNE":0,
+	         "JULY":0.00,
+	         "AUGUST":0.00,
+	         "SEPTEMBER":0.00,
+	         "OCTOBER":0.00,
+	         "NOVEMBER":0.00,
+	         "DECEMBER":1
+	     }
+	}
+]</con:request><con:originalUri>http://localhost/energy/profiles</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters><entry key="" value="" xmlns="http://eviware.com/soapui/config"/></con:parameters></con:request></con:method><con:method name="getProfiles" id="76e76d5b-c26a-43b0-b122-f122948a6527" method="GET"><con:settings/><con:parameters/><con:representation type="FAULT"><con:mediaType>application/json;charset=UTF-8</con:mediaType><con:status>405</con:status><con:params/><con:element xmlns:prof="http://localhost/energy/profiles">prof:Fault</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/><con:element>Response</con:element></con:representation><con:request name="Request 1" id="fe917e4d-aed8-428a-b48e-601be938c85f" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="accept" value="application/json" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:endpoint>http://localhost:8080</con:endpoint><con:request/><con:originalUri>http://localhost/energy/profiles</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource><con:resource name="meters" path="/energy/meters" id="627ebc57-434f-4b07-9d9e-aebb19caf015"><con:settings/><con:parameters/><con:method name="postMeters" id="78fa4796-c226-4c23-9eef-e5ae69496d51" method="POST"><con:settings/><con:parameters/><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/></con:representation><con:representation type="FAULT"><con:mediaType>application/json;charset=UTF-8</con:mediaType><con:status>500 409 400 422</con:status><con:params/><con:element xmlns:met="http://localhost/energy/meters">met:Fault</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>409</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="FAULT"><con:mediaType xsi:nil="true"/><con:status>400</con:status><con:params/><con:element>data</con:element></con:representation><con:request name="Request 1" id="0b9b8d1a-14d7-411f-9322-71f0a246c786" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="accept" value="application/json" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:endpoint>http://localhost:8080</con:endpoint><con:request>[
+	{
+	"meterID":56,
+	"profileName":2,
+	"meterReadingMap":{    
+	         "JANUARY":0,
+	         "FEBRUARY":0,
+	         "MARCH":0,
+	         "APRIL":0,
+	         "MAY":0,
+	         "JUNE":0,
+	         "JULY":0,
+	         "AUGUST":0,
+	         "SEPTEMBER":0,
+	         "OCTOBER":0.01,
+	         "NOVEMBER":0,
+	         "DECEMBER":10
+	     }
+	},
+	{
+	"meterID":1,
+	"profileName":2,
+	"meterReadingMap":{    
+	         "JANUARY":0,
+	         "FEBRUARY":0,
+	         "MARCH":0,
+	         "APRIL":0,
+	         "MAY":0,
+	         "JUNE":0,
+	         "JULY":0,
+	         "AUGUST":0,
+	         "SEPTEMBER":0,
+	         "OCTOBER":0.01,
+	         "NOVEMBER":0,
+	         "DECEMBER":10
+	     }
+	},
+	{
+	"meterID": 2,
+	"profileName":"A",
+	"meterReadingMap":{    
+	         "JANUARY":0,
+	         "FEBRUARY":0,
+	         "MARCH":0,
+	         "APRIL":0,
+	         "MAY":0,
+	         "JUNE":0,
+	         "JULY":0,
+	         "AUGUST":0,
+	         "SEPTEMBER":0,
+	         "OCTOBER":0.01,
+	         "NOVEMBER":0,
+	         "DECEMBER":10	     
+		}
+	}
+]</con:request><con:originalUri>http://localhost/energy/meters</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method><con:method name="getMeters" id="fca7e45f-ac66-46a1-9781-fa4b4468f66e" method="GET"><con:settings/><con:parameters/><con:representation type="RESPONSE"><con:mediaType>application/json;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/><con:element>Response</con:element></con:representation><con:request name="Request 1" id="a5dd0fe4-7689-4003-b0c7-fd9b923c73a6" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="accept" value="application/json" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:endpoint>http://localhost:8080</con:endpoint><con:request/><con:originalUri>http://localhost/energy/meters</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource><con:resource name="consumption" path="/energy/consumption" id="f54ee9f5-fd0e-42d6-9726-9116c42fb65d"><con:settings/><con:parameters><con:parameter><con:name>meterId</con:name><con:value/><con:style>QUERY</con:style><con:default/><con:description xsi:nil="true"/></con:parameter><con:parameter><con:name>month</con:name><con:value/><con:style>QUERY</con:style><con:default/><con:description xsi:nil="true"/></con:parameter></con:parameters><con:method name="Method 1" id="7cb53940-d086-4f87-a261-69ad9b6312b1" method="GET"><con:settings/><con:parameters/><con:representation type="FAULT"><con:mediaType>application/json;charset=UTF-8</con:mediaType><con:status>415 400 500 422</con:status><con:params/><con:element xmlns:con1="http://localhost/energy/consumption">con1:Fault</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/json;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/></con:representation><con:request name="Request 1" id="b4c9c7d0-ecde-4db0-b04f-61c43859a42b" mediaType="application/json"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;entry key="accept" value="application/json" xmlns="http://eviware.com/soapui/config"/></con:setting></con:settings><con:endpoint>http://localhost:8080</con:endpoint><con:request/><con:originalUri>http://localhost/energy/consumption</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters>
+  <con:entry key="meterId" value="1"/>
+  <con:entry key="month" value="december"/>
+</con:parameters><con:parameterOrder><con:entry>month</con:entry><con:entry>meterId</con:entry></con:parameterOrder></con:request></con:method></con:resource></con:interface><con:properties/><con:wssContainer/><con:databaseConnectionContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
